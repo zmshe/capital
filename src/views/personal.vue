@@ -80,27 +80,31 @@
             </div>
             <div class="flex">
               <div>
-                <img
-                  width="400px"
-                  src="http://www.chinamerger.com/chinamergerImage//register/79884/9c688733869d4fe0908a7e6f85fde002.jpg"
-                />
+                <el-image
+                  :style="{ width: '400px' }"
+                  :src="imgurl"
+                  error="暂未认证"
+                ></el-image>
               </div>
               <div class="authen-info">
                 <div>通过实名认证的条件：</div>
                 <div>○ 上传真实的名片</div>
                 <div>○ 名片上的手机或邮箱与注册信息一致</div>
+                <div>○ 名片格式支持gif、jpg、jpeg、png</div>
                 <div>如不一致，请点击更新个人资料进行修改 选择名片</div>
                 <div>
                   <el-upload
-                    action="https://jsonplaceholder.typicode.com/posts/"
+                    accept="image/gif, image/jpeg, image/png, image/jpg"
+                    :action="url"
+                    :show-file-list="false"
+                    :on-success="upload"
                   >
-                    <el-button size="medium" type="primary">选择名片</el-button>
+                    <el-button size="medium" type="primary"
+                      >选择名片并提交</el-button
+                    >
                   </el-upload>
                 </div>
               </div>
-            </div>
-            <div>
-              <div class="black-btn">申请提交</div>
             </div>
           </div>
         </el-tab-pane>
@@ -113,6 +117,7 @@
 export default {
   data() {
     return {
+      imgurl: '',
       loading: false,
       form: {},
       tabsValue: 'base',
@@ -122,13 +127,35 @@ export default {
         '我在找金融服务机构',
         '我是金融服务机构',
         '我是政府部门/协会'
-      ]
+      ],
+      url:
+        process.env.NODE_ENV === 'development'
+          ? '/api/system/tFile/fileUpload'
+          : 'http://47.104.211.178:9187/api/system/tFile/fileUpload'
     };
   },
   created() {
     this.getUserInfo();
   },
   methods: {
+    async upload(response, file, fileList) {
+      if (response.code !== 200) {
+        this.$message.error(response.msg);
+        return;
+      }
+      const data = await this.$request.get(
+        `/system/tFile/readFile?path=${response.data}`,
+        { responseType: 'blob' }
+      );
+      await this.$request.post('/system/tUser/edit', {
+        ...this.form,
+        idcardPositive: `${response.data}`,
+        busLicense: '',
+        idcardSide: ''
+      });
+      this.imgurl = window.URL.createObjectURL(data);
+      this.getUserInfo();
+    },
     async submit() {
       const data = await this.$request.post('/system/tUser/edit', {
         ...this.form
@@ -138,7 +165,6 @@ export default {
         localStorage.setItem('username', data.data.name);
         this.getUserInfo();
       }
-      console.log(data);
     },
     async getUserInfo() {
       this.loading = true;
@@ -146,6 +172,11 @@ export default {
         `/system/tUser/search/${localStorage.getItem('id')}`
       );
       this.form = data.data;
+      const image = await this.$request.get(
+        `/system/tFile/readFile?path=${data.data.idcardPositive}`,
+        { responseType: 'blob' }
+      );
+      this.imgurl = window.URL.createObjectURL(image);
       this.loading = false;
     }
   }

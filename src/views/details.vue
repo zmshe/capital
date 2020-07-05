@@ -210,9 +210,9 @@ export default {
   methods: {
     async sendMessage() {
       const data = await this.$request.post('/system/tSendmessage/add', {
-        creator: 'xjh',
         pid: this.data.id,
-        message: this.message
+        message: this.message,
+        creator: localStorage.getItem('username')
       });
       if (data.code === 200) {
         this.$message.success('发送成功');

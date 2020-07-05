@@ -92,7 +92,7 @@
         ></el-form-item>
       </el-form>
 
-      <div class="flex">
+      <div class="flex" style="width:400px">
         <div class="black-btn" @click="fallback()">上一步</div>
         <div class="black-btn" @click="submitForm('form')">
           下 一 步 / 保 存

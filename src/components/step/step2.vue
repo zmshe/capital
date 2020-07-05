@@ -8,8 +8,9 @@
         label-width="80px"
         ref="form"
       >
-        <el-form-item label="项目名称">
+        <el-form-item label="项目名称" required>
           <el-input
+            props="name"
             :style="{ width: '50%' }"
             v-model="form.name"
             placeholder="请输入项目名称, 不超过50个字"
@@ -17,7 +18,7 @@
           ></el-input>
         </el-form-item>
 
-        <el-form-item label="项目描述以及投资亮点" class="info">
+        <el-form-item label="项目描述以及投资亮点" class="info" required>
           <el-input
             :style="{ width: '30%' }"
             type="textarea"
@@ -25,13 +26,6 @@
             v-model="form.descinfo"
           >
           </el-input>
-          <div class="text">
-            <div>过往业绩</div>
-            <div>主要案例</div>
-            <div>投资团队简介</div>
-            <div>投资策略</div>
-            <div>募资方案</div>
-          </div>
         </el-form-item>
       </el-form>
 
@@ -47,56 +41,28 @@
           :key="item.label"
           :label="item.label"
         >
-          <el-select
-            v-if="item.type === 'select'"
-            v-model="form[item.model]"
-            placeholder="请选择"
-          >
-            <el-option
-              v-for="(_item, _index) in item.children"
-              :key="_index"
-              :label="_item"
-              :value="_item"
-            >
-            </el-option>
-          </el-select>
-
           <div v-if="item.type === 'inputRange'">
             <el-input
-              type="number"
               v-model="form[item.startmodel]"
               style="width:150px"
             ></el-input>
             —
-            <el-input
-              type="number"
-              v-model="form[item.endmodel]"
-              style="width:150px"
-            ></el-input>
-            <el-select
-              v-model="form[item.model]"
-              placeholder="请选择"
-              style="width:100px"
-            >
-              <el-option
-                v-for="(_item, _index) in item.select"
-                :key="_index"
-                :label="_item"
-                :value="_index + 1"
+            <el-input v-model="form[item.endmodel]" style="width:250px">
+              <el-select
+                slot="append"
+                v-model="form[item.model]"
+                placeholder="请选择"
+                style="width:100px"
               >
-              </el-option>
-            </el-select>
-          </div>
-
-          <div v-if="item.type === 'checkbox'">
-            <el-checkbox-group v-model="form[item.model]">
-              <el-checkbox
-                v-for="(_item, _index) in item.children"
-                :label="_index"
-                :key="_index"
-                >{{ _item }}
-              </el-checkbox>
-            </el-checkbox-group>
+                <el-option
+                  v-for="(_item, _index) in item.select"
+                  :key="_index"
+                  :label="_item"
+                  :value="_index + 1"
+                >
+                </el-option>
+              </el-select>
+            </el-input>
           </div>
         </el-form-item>
         <el-upload
@@ -111,9 +77,9 @@
         </el-upload>
       </el-form>
 
-      <div class="flex">
+      <div class="flex" style="width:400px">
         <div class="black-btn" @click="fallback()">上一步</div>
-        <div class="black-btn" @click="submitForm('form')">
+        <div class="black-btn" @click="submitForm()">
           下 一 步 / 保 存
         </div>
       </div>
@@ -193,6 +159,12 @@ export default {
       this.$router.push('step1');
     },
     submitForm() {
+      if (!this.isNeedCreate) {
+        if (!this.form.name || !this.form.descinfo) {
+          this.$message.warning('请输入完整的项目名称以及项目描述');
+          return;
+        }
+      }
       const localform = JSON.parse(localStorage.getItem('form'));
       const params = {
         ...localform,

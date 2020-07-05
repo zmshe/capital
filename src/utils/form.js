@@ -498,7 +498,7 @@ module.exports = {
         type: 'cascader',
         width: '500px',
         model: 'industry',
-        label: '主要行业分类',
+        label: '行业分类',
         options: '$trade'
       },
       {
@@ -563,7 +563,7 @@ module.exports = {
         type: 'cascader',
         width: '500px',
         model: 'industry',
-        label: '主要行业分类',
+        label: '行业分类',
         options: '$trade'
       },
       {

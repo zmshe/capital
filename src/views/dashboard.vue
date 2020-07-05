@@ -4,19 +4,17 @@
       <el-input
         placeholder="请输入关键词"
         v-model="search.input"
-        @keyup.enter.native="getindexCount(search.project)"
+        @keyup.enter.native="getAlllist(1, search.project)"
       >
         <el-button
           slot="append"
           class="searchbtn"
-          @click="getindexCount(search.project)"
+          @click="getAlllist(1, search.project)"
           >搜索</el-button
         >
       </el-input>
     </div>
     <div class="project">
-      {{ ` ---- >> ${num}%` }}
-      <el-button @click="gaga">进度条</el-button>
       <el-radio-group
         size="medium"
         v-model="search.project"
@@ -64,7 +62,6 @@ export default {
   },
   data() {
     return {
-      num: 0,
       timeout: null,
       proListData: {},
       needListData: {},
@@ -117,16 +114,6 @@ export default {
     };
   },
   methods: {
-    gaga() {
-      this.num = 0;
-      clearInterval(this.timeout);
-      this.timeout = setInterval(() => {
-        this.num += 20;
-        if (this.num >= 100) {
-          clearInterval(this.timeout);
-        }
-      }, 200);
-    },
     async getAlllist(areatype) {
       this.getProlist(1, areatype);
       this.getNeedlist(1, areatype);

@@ -109,13 +109,10 @@
         </el-radio-group>
       </div>
       <el-divider></el-divider>
-      <div class="flex">
+      <div class="flex" style="width:400px">
         <div class="black-btn" @click="fallback()">上一步</div>
         <div class="black-btn" @click="submitForm('form')">
           提交审核
-        </div>
-        <div class="black-btn" @click="saveForm('form')">
-          保存草稿
         </div>
       </div>
     </el-card>
@@ -186,9 +183,6 @@ export default {
           type: 'error'
         });
       }
-    },
-    saveForm() {
-      console.log('保存');
     }
   }
 };

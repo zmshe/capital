@@ -85,7 +85,6 @@
           />
           投航汇手机版
         </div>
-        <div>{{ status }}</div>
       </div>
       <div class="login-center-trade">© 2020 投航汇 All rights reserved</div>
       <div class="login-center-trade">沪ICP备20002967号-1</div>
@@ -209,13 +208,10 @@ export default {
       const data = await this.$request.post('/system/tUser/login', {
         ...this.form
       });
-      if (data.code === 200) {
-        localStorage.setItem('token', data.data.token);
+      if (data.code === 200 || data.code === 9004) {
         localStorage.setItem('username', this.form.name);
         localStorage.setItem('id', data.data.id);
         localStorage.setItem('password', data.data.password);
-        this.$router.push('/index');
-      } else if (data.code === 9004) {
         localStorage.setItem('token', data.data.token);
         this.$router.push('/index');
       } else {

@@ -4,7 +4,7 @@
     <el-divider></el-divider>
     <div>
       <el-card
-        v-for="(item, index) in list"
+        v-for="(item, index) in messageList"
         :key="index"
         class="box-card message-card"
       >
@@ -13,6 +13,7 @@
           :style="{ background: '#FE9D2B', fontSize: '24px' }"
           >{{ item.creator }}</el-avatar
         >
+        <el-tag>{{ item.pid }}</el-tag>
         <div class="message-name">
           {{ item.createBy }}
           <div v-if="item.no" class="message-new">
@@ -21,8 +22,57 @@
         </div>
         <div class="message-info">{{ item.message }}</div>
         <div class="message-time">{{ item.createDate }}</div>
-        <div class="message-reply"><span>去回复 &gt;</span></div>
+        <div class="message-reply" @click="reply(item)">
+          <span>去回复 &gt;</span>
+        </div>
       </el-card>
+      <el-dialog
+        :title="`${this.data.pid}`"
+        :visible="dialogVisible"
+        width="50%"
+        :before-close="handleClose"
+      >
+        <el-input
+          type="textarea"
+          :rows="8"
+          placeholder="请输入内容"
+          v-model="message"
+        >
+        </el-input>
+        <div class="message-submit">
+          <el-button @click="dialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="sendMessage">发送</el-button>
+        </div>
+        <div>
+          <el-card
+            v-for="item in messageHistory"
+            :key="item.createDate"
+            class="message-details"
+          >
+            <div style="display: flex">
+              <div>
+                <el-avatar
+                  width="80"
+                  size="large"
+                  :style="{ background: '#FE9D2B', fontSize: '24px' }"
+                  >{{ item.creator[0] }}</el-avatar
+                >
+              </div>
+              <div class="message-details-info">
+                <div style="font-size: 20px">
+                  {{ item.creator }}
+                  <span class="message-details-info-date">{{
+                    item.createDate
+                  }}</span>
+                </div>
+                <div class="message-details-info-message">
+                  {{ item.message }}
+                </div>
+              </div>
+            </div>
+          </el-card>
+        </div>
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -34,13 +84,63 @@ export default {
   },
   data() {
     return {
-      list: []
+      dialogVisible: false,
+      message: '',
+      messageList: {},
+      data: {},
+      messageHistory: []
     };
   },
   methods: {
+    async reply(data) {
+      this.data = data;
+      const list = await this.$request.post('/system/tReceivemessage/list', {
+        pid: this.data.pid
+      });
+      const tmpMessagelist = list.data.rows.filter(item => {
+        return item.creator === this.data.creator;
+      });
+      this.messageHistory = tmpMessagelist;
+      this.dialogVisible = true;
+    },
+    async sendMessage() {
+      const data = await this.$request.post('/system/tSendmessage/add', {
+        pid: this.data.pid,
+        message: this.message,
+        creator: this.data.creator,
+        reseruser: localStorage.getItem('username'),
+        reseruserid: this.data.id
+      });
+      if (data.code === 200) {
+        this.$message.success('发送成功');
+        this.messageDialog = false;
+        this.message = '';
+      } else {
+        this.$message.error(data.msg);
+      }
+    },
+    handleClose() {
+      this.dialogVisible = false;
+    },
     async getMessageList() {
+      const tmpObj = {};
       const data = await this.$request.post('/system/tReceivemessage/list');
-      this.list = data.data.rows;
+      data.data.rows.forEach(item => {
+        console.log(localStorage.getItem('username'), item.creator);
+        if (item.creator !== localStorage.getItem('username')) {
+          tmpObj[`${item.pid}${item.creator}`] = null;
+        }
+      });
+      data.data.rows.forEach(item => {
+        if (
+          !tmpObj[`${item.pid}${item.creator}`] &&
+          item.creator !== localStorage.getItem('username')
+        ) {
+          tmpObj[`${item.pid}${item.creator}`] = item;
+        }
+      });
+      console.log(tmpObj);
+      this.messageList = tmpObj;
     }
   }
 };
@@ -107,6 +207,35 @@ export default {
     font-weight: 600;
     background: #ffb900;
     animation: anni 0.5s infinite alternate;
+  }
+  .message-details {
+    margin-top: 10px;
+    .el-avatar--large {
+      height: 80px;
+      width: 80px;
+      line-height: 80px;
+    }
+    &-info {
+      width: 100%;
+      margin-left: 20px;
+      &-date {
+        color: #737373;
+        margin-left: 30px;
+        font-size: 14px;
+      }
+      &-message {
+        margin: 10px 100px 0px 0px;
+        border-radius: 10px;
+        background: #eee;
+        padding: 10px;
+        color: #5f5f5f;
+      }
+    }
+  }
+  .message-submit {
+    padding-top: 20px;
+    text-align: center;
+    margin-bottom: 30px;
   }
 }
 @keyframes anni {
