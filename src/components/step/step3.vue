@@ -29,7 +29,6 @@
         <el-form-item label="上传保密文件（Data Room）">
           <div class="flex">
             <el-table :data="filelist" style="{width: 80px}">
-              <el-table-column prop="id" label="类型" />
               <el-table-column prop="name" label="文件名" />
               <el-table-column prop="creator" label="文档所有人" />
               <el-table-column prop="createDate" label="上传时间" />
@@ -154,6 +153,12 @@ export default {
       this.$router.push('step2');
     },
     submitForm() {
+      if (this.isNeedCreate) {
+        if (!this.form.investorintrodu) {
+          this.$message.warning('请填写投资方介绍');
+          return;
+        }
+      }
       const localform = JSON.parse(localStorage.getItem('form'));
       const params = {
         ...localform,

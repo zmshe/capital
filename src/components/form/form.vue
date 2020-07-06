@@ -25,13 +25,24 @@
         >
       </el-radio-group>
 
-      <el-input-number
+      <el-input
         v-if="item.type === 'input-number'"
         v-model="form[item.model]"
         controls-position="right"
         :min="0"
         :prop="item.model"
-      ></el-input-number>
+        style="width: 300px"
+      >
+        <el-select
+          :style="{ width: '100px' }"
+          v-model="form[item.after]"
+          placeholder="请选择"
+          slot="append"
+        >
+          <el-option label="万" :value="1">万</el-option>
+          <el-option label="亿" :value="2">亿</el-option>
+        </el-select>
+      </el-input>
 
       <div v-if="item.type === 'range'">
         <el-input
@@ -112,16 +123,6 @@
         >
       </el-select>
 
-      <el-select
-        v-if="item.after"
-        :style="{ width: '100px' }"
-        v-model="form[item.after]"
-        placeholder="请选择"
-      >
-        <el-option label="万" :value="1">万</el-option>
-        <el-option label="亿" :value="2">亿</el-option>
-      </el-select>
-
       <el-checkbox
         v-if="item.show"
         class="is-show-data"
@@ -150,13 +151,29 @@ export default {
     };
   },
   created() {
+    const tmpObj = {};
+    this.$form[this.formtype].list.forEach(item => {
+      if (
+        item.type === 'number' ||
+        item.type === 'input-number' ||
+        item.type === 'input'
+      ) {
+        if (item.after) {
+          tmpObj[item.after] = 1;
+        }
+      }
+      if (item.select) {
+        tmpObj[item.select.model] = 1;
+      }
+    });
+    this.form = { ...tmpObj };
     if (
       !localStorage.getItem('formType') ||
       !localStorage.getItem('formStatus')
     ) {
       this.$router.push('/dashboard');
     }
-    this.form = { ...JSON.parse(localStorage.getItem('form')) };
+    this.form = { ...this.form, ...JSON.parse(localStorage.getItem('form')) };
   },
   computed: {},
   methods: {

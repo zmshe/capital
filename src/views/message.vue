@@ -54,13 +54,18 @@
                 <el-avatar
                   width="80"
                   size="large"
-                  :style="{ background: '#FE9D2B', fontSize: '24px' }"
-                  >{{ item.creator[0] }}</el-avatar
+                  :style="{
+                    background: `${
+                      username === item.reseruser ? '#FE9D2B' : 'red'
+                    }`,
+                    fontSize: '24px'
+                  }"
+                  >{{ item.reseruser }}</el-avatar
                 >
               </div>
               <div class="message-details-info">
                 <div style="font-size: 20px">
-                  {{ item.creator }}
+                  {{ item.reseruser }}
                   <span class="message-details-info-date">{{
                     item.createDate
                   }}</span>
@@ -88,7 +93,8 @@ export default {
       message: '',
       messageList: {},
       data: {},
-      messageHistory: []
+      messageHistory: [],
+      username: localStorage.getItem('username')
     };
   },
   methods: {
@@ -104,12 +110,11 @@ export default {
       this.dialogVisible = true;
     },
     async sendMessage() {
-      const data = await this.$request.post('/system/tSendmessage/add', {
+      const data = await this.$request.post('/system/tReceivemessage/add', {
         pid: this.data.pid,
         message: this.message,
         creator: this.data.creator,
-        reseruser: localStorage.getItem('username'),
-        reseruserid: this.data.id
+        reseruser: localStorage.getItem('username')
       });
       if (data.code === 200) {
         this.$message.success('发送成功');
@@ -126,16 +131,12 @@ export default {
       const tmpObj = {};
       const data = await this.$request.post('/system/tReceivemessage/list');
       data.data.rows.forEach(item => {
-        console.log(localStorage.getItem('username'), item.creator);
         if (item.creator !== localStorage.getItem('username')) {
           tmpObj[`${item.pid}${item.creator}`] = null;
         }
       });
       data.data.rows.forEach(item => {
-        if (
-          !tmpObj[`${item.pid}${item.creator}`] &&
-          item.creator !== localStorage.getItem('username')
-        ) {
+        if (!tmpObj[`${item.pid}${item.creator}`]) {
           tmpObj[`${item.pid}${item.creator}`] = item;
         }
       });

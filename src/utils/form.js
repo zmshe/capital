@@ -103,8 +103,17 @@ module.exports = {
     ],
     rules: {
       role: [{ required: true, message: '请选择', trigger: 'change' }],
+      financmode: [{ required: true, message: '请选择', trigger: 'change' }],
+      financround: [{ required: true, message: '请选择', trigger: 'change' }],
+      financmoney: [{ required: true, message: '请输入', trigger: 'blue' }],
+      industry: [{ required: true, message: '请选择', trigger: 'change' }],
+      zonetype: [{ required: true, message: '请选择', trigger: 'change' }],
+      specificshareratio: [{ required: true, message: '请输入', trigger: 'blur' }],
+      quasisellProjectMoney: [{ required: true, message: '请输入', trigger: 'blur' }],
+      islastyearprofit: [{ required: true, message: '请选择', trigger: 'change' }],
       financmoneyunit: [{ required: true, message: '请输入', trigger: 'blur' }],
-      profitmonty: [{ required: true, message: '请输入', trigger: 'blur' }]
+      profitmonty: [{ required: true, message: '请输入', trigger: 'blur' }],
+      lastfinancialinfo: [{ required: true, message: '请输入', trigger: 'blur' }]
     }
   },
   saleCreateChina2: {
@@ -182,8 +191,13 @@ module.exports = {
     ],
     rules: {
       role: [{ required: true, message: '请选择', trigger: 'change' }],
-      financmoneyunit: [{ required: true, message: '请输入', trigger: 'blur' }],
-      profitmonty: [{ required: true, message: '请输入', trigger: 'blur' }]
+      industry: [{ required: true, message: '请选择', trigger: 'change' }],
+      zonetype: [{ required: true, message: '请选择', trigger: 'change' }],
+      specificshareratio: [{ required: true, message: '请输入', trigger: 'blue' }],
+      quasisellProjectMoney: [{ required: true, message: '请选择', trigger: 'change' }],
+      islastyearprofit: [{ required: true, message: '请选择', trigger: 'change' }],
+      profitmonty: [{ required: true, message: '请输入', trigger: 'blue' }],
+      lastfinancialinfo: [{ required: true, message: '请输入', trigger: 'blur' }]
     }
   },
   saleCreateChina3: {
@@ -265,8 +279,15 @@ module.exports = {
     ],
     rules: {
       role: [{ required: true, message: '请选择', trigger: 'change' }],
-      financmoneyunit: [{ required: true, message: '请输入', trigger: 'blur' }],
-      profitmonty: [{ required: true, message: '请输入', trigger: 'blur' }]
+      fundrais: [{ required: true, message: '请选择', trigger: 'change' }],
+      industry: [{ required: true, message: '请选择', trigger: 'change' }],
+      zonetype: [{ required: true, message: '请选择', trigger: 'change' }],
+      hisraisemoney: [{ required: true, message: '请输入', trigger: 'blur' }],
+      epicycleproposedmoney: [{ required: true, message: '请输入', trigger: 'blur' }],
+      epicyclealreadyamount: [{ required: true, message: '请输入', trigger: 'blur' }],
+      capitalcontribumoney: [{ required: true, message: '请输入', trigger: 'blur' }],
+      projectirrmoney: [{ required: true, message: '请输入', trigger: 'blur' }],
+      funddpl: [{ required: true, message: '请输入', trigger: 'blur' }]
     }
   },
   saleCreateHai1: {
@@ -306,18 +327,13 @@ module.exports = {
         append: '%'
       },
       {
-        type: 'input',
+        type: 'input-number',
         inputtype: 'number',
         model: 'projectprice',
-        label: '项目要价',
+        label: '项目估值',
         width: '300px',
         after: 'projectpriceunit',
-        show: 'isprojectpricedisclosure',
-        select: {
-          width: '120px',
-          model: 'projectpricetype',
-          children: ['待定']
-        }
+        show: 'isprojectpricedisclosure'
       },
       {
         type: 'select',
@@ -352,8 +368,13 @@ module.exports = {
     ],
     rules: {
       role: [{ required: true, message: '请选择', trigger: 'change' }],
-      financmoneyunit: [{ required: true, message: '请输入', trigger: 'blur' }],
-      profitmonty: [{ required: true, message: '请输入', trigger: 'blur' }]
+      industry: [{ required: true, message: '请选择', trigger: 'change' }],
+      zonetype: [{ required: true, message: '请选择', trigger: 'change' }],
+      specificshareratio: [{ required: true, message: '请输入', trigger: 'blur' }],
+      projectprice: [{ required: true, message: '请输入', trigger: 'blur' }],
+      islastyearprofit: [{ required: true, message: '请输入', trigger: 'blur' }],
+      profitmonty: [{ required: true, message: '请输入', trigger: 'blur' }],
+      lastfinancialinfo: [{ required: true, message: '请输入', trigger: 'blur' }]
     }
   },
   saleCreateHai2: {
@@ -445,8 +466,14 @@ module.exports = {
     ],
     rules: {
       role: [{ required: true, message: '请选择', trigger: 'change' }],
-      financmoneyunit: [{ required: true, message: '请输入', trigger: 'blur' }],
-      profitmonty: [{ required: true, message: '请输入', trigger: 'blur' }]
+      industry: [{ required: true, message: '请选择', trigger: 'change' }],
+      zonetype: [{ required: true, message: '请选择', trigger: 'change' }],
+      currency: [{ required: true, message: '请选择', trigger: 'change' }],
+      specificshareratio: [{ required: true, message: '请选择', trigger: 'blur' }],
+      projectprice: [{ required: true, message: '请选择', trigger: 'blur' }],
+      islastyearprofit: [{ required: true, message: '请选择', trigger: 'blur' }],
+      profitmonty: [{ required: true, message: '请选择', trigger: 'blur' }],
+      lastfinancialinfo: [{ required: true, message: '请选择', trigger: 'blur' }]
     }
   },
   needCreate1: {
@@ -511,7 +538,12 @@ module.exports = {
       }
     ],
     rules: {
-      role: [{ required: true, message: '请选择', trigger: 'change' }]
+      role: [{ required: true, message: '请选择', trigger: 'change' }],
+      investtactful: [{ required: true, message: '请选择', trigger: 'change' }],
+      name: [{ required: true, message: '请选择', trigger: 'blur' }],
+      descinfo: [{ required: true, message: '请选择', trigger: 'blur' }],
+      industry: [{ required: true, message: '请选择', trigger: 'change' }],
+      zonetype: [{ required: true, message: '请选择', trigger: 'change' }]
     }
   },
   needCreate2: {
@@ -575,7 +607,12 @@ module.exports = {
       }
     ],
     rules: {
-      role: [{ required: true, message: '请选择', trigger: 'change' }]
+      role: [{ required: true, message: '请选择', trigger: 'change' }],
+      investtactful: [{ required: true, message: '请选择', trigger: 'change' }],
+      name: [{ required: true, message: '请选择', trigger: 'blur' }],
+      descinfo: [{ required: true, message: '请选择', trigger: 'blur' }],
+      industry: [{ required: true, message: '请选择', trigger: 'change' }],
+      zonetype: [{ required: true, message: '请选择', trigger: 'change' }]
     }
   }
 };
