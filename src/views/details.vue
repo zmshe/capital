@@ -7,9 +7,6 @@
         </div>
         <div class="details-title-date">{{ data.createDate }}上线</div>
       </div>
-      <div class="details-tag">
-        <el-tag>房地产</el-tag><el-tag>开发</el-tag>
-      </div>
 
       <div class="details-userinfo">
         <div class="details-userinfo-title">
@@ -234,12 +231,14 @@ export default {
         resolve(this.$request.get(`/system/${type}/search/${id}`));
       });
     },
+    // 同类项目
     async getSimilarlist() {
       const data = await this.$request.post('/system/pro/similarlist', {
         industry: this.data.industry
       });
       this.similarlist = data.data;
     },
+    // 发布人的其他项目
     async getPropublisherlist() {
       const data = await this.$request.post('/system/pro/propublisherlist', {
         propublisher: this.data.propublisher

@@ -126,7 +126,6 @@ export default {
       const tmpObj = {};
       const data = await this.$request.post('/system/tReceivemessage/list');
       data.data.rows.forEach(item => {
-        console.log(localStorage.getItem('username'), item.creator);
         if (item.creator !== localStorage.getItem('username')) {
           tmpObj[`${item.pid}${item.creator}`] = null;
         }
@@ -139,7 +138,6 @@ export default {
           tmpObj[`${item.pid}${item.creator}`] = item;
         }
       });
-      console.log(tmpObj);
       this.messageList = tmpObj;
     }
   }
