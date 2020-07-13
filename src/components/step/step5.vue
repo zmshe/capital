@@ -5,9 +5,6 @@
         <div class="info">
           <i class="el-icon-success"></i> 提交成功！完整度越高，匹配结果越精准！
         </div>
-        <div>
-          <el-progress :width="60" type="circle" :percentage="70"></el-progress>
-        </div>
       </div>
     </el-card>
   </div>
@@ -29,6 +26,7 @@ export default {
 .step5 {
   .card {
     padding: 20px 5px;
+    margin: 0 auto;
     .info {
       position: relative;
       top: 10px;
@@ -36,7 +34,7 @@ export default {
       color: #666;
       letter-spacing: 0;
       line-height: 30px;
-      text-align: left;
+      text-align: center;
       margin-right: 20px;
       .el-icon-success {
         position: relative;

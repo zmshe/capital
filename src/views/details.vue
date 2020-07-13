@@ -209,7 +209,8 @@ export default {
       const data = await this.$request.post('/system/tSendmessage/add', {
         pid: this.data.id,
         message: this.message,
-        creator: localStorage.getItem('username')
+        creator: localStorage.getItem('username'),
+        reseruser: localStorage.getItem('username')
       });
       if (data.code === 200) {
         this.$message.success('发送成功');
