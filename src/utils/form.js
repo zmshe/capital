@@ -495,7 +495,6 @@ module.exports = {
         label: '投资策略',
         children: [
           { key: 1, value: '控股并购' },
-          { key: 2, value: '少数股权投资' },
           { key: 3, value: '两者兼有' }
         ]
       },

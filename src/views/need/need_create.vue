@@ -38,6 +38,7 @@ export default {
       );
 
       localStorage.setItem('form', '{}');
+      localStorage.setItem('fileList', '[]');
       localStorage.setItem('detailsType', 'add');
       this.$router.push(this.info.url);
     }

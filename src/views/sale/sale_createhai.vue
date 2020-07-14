@@ -15,6 +15,7 @@ export default {
         '项目要素,项目信息,项目保密文件,预览,发布成功'
       );
       localStorage.setItem('form', '{}');
+      localStorage.setItem('fileList', '[]');
       localStorage.setItem('detailsType', 'add');
       this.$router.push(this.info.url);
     }

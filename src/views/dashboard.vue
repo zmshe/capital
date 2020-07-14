@@ -20,8 +20,8 @@
         v-model="search.project"
         @change="getAlllist"
       >
-        <el-radio-button :label="1">国内项目</el-radio-button>
         <el-radio-button :label="2">跨境项目</el-radio-button>
+        <el-radio-button :label="1">国内项目</el-radio-button>
       </el-radio-group>
     </div>
     <div class="list" v-loading="loading">
@@ -69,7 +69,7 @@ export default {
       search: {
         input: '',
         select: '企业',
-        project: 1
+        project: 2
       },
       inlandList: {
         cur: true,
@@ -114,29 +114,30 @@ export default {
     };
   },
   methods: {
-    async getAlllist(areatype) {
-      this.getProlist(1, areatype);
-      this.getNeedlist(1, areatype);
+    async getAlllist() {
+      this.getProlist(1);
+      this.getNeedlist(1);
     },
-    async getProlist(pageNum = 1, areatypes) {
+    async getProlist(pageNum = 1) {
       this.loading = true;
-      const areatype = areatypes || this.search.project;
       const proList = await this.$request.post('/system/index/prolist', {
         pageNum: `${pageNum}`,
-        areatype,
+        areatype: this.search.project,
         pageSize: '10',
-        name: this.search.input
+        name: this.search.input,
+        fowState: 2
       });
       this.proListData = proList.data;
       this.loading = false;
     },
-    async getNeedlist(pageNum = 1, areatype) {
+    async getNeedlist(pageNum = 1) {
       this.loading = true;
       const needList = await this.$request.post('/system/index/needlist', {
         pageNum,
-        areatype,
+        areatype: this.search.project,
         pageSize: '10',
-        name: this.search.input
+        name: this.search.input,
+        fowState: 2
       });
       this.needListData = needList.data;
       this.loading = false;

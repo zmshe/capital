@@ -38,16 +38,12 @@
                 <el-row>
                   <el-col :span="6" class="left"
                     ><div>发布者姓名</div>
-                    <div>认证信息</div>
-                    <div>发布者身份</div></el-col
+                    <div>公司名称</div></el-col
                   >
                   <el-col :span="18" class="right"
                     ><div>{{ data.propublisher }}</div>
                     <div>
-                      pv
-                    </div>
-                    <div>
-                      {{ data.role }}
+                      {{ data.organname }}
                     </div></el-col
                   >
                 </el-row>

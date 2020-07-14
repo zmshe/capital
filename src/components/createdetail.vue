@@ -6,7 +6,7 @@
       </el-steps>
     </div>
     <div
-      v-if="this.status !== 5 && !isNeedCreate && this.status !== 4"
+      v-if="this.status !== 5 && this.status !== 4"
       class="createdetail-info"
     >
       附注：建议填列尽可能详细信息 <span>以帮助潜在投资者了解项目匹配度</span>

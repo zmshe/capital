@@ -140,7 +140,6 @@ export default {
           tmpObj[`${item.pid}${item.creator}`] = item;
         }
       });
-      console.log(tmpObj);
       this.messageList = tmpObj;
     }
   }

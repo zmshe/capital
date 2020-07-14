@@ -103,7 +103,7 @@
           </div>
           <el-checkbox-group
             v-if="item.type === 'checkbox'"
-            v-model="formData[item.model]"
+            v-model="financround"
             prop="proposinvestmentend"
           >
             <el-checkbox
@@ -141,11 +141,11 @@ import { mapActions } from 'vuex';
 export default {
   data() {
     return {
+      financround: [],
       formData: {
         financmoneyunit: 1,
         investroundstart: [],
-        enterprisevaluaendunit: 1,
-        financround: []
+        enterprisevaluaendunit: 1
       },
       isNeedCreate: localStorage.getItem('formType') === 'needCreate',
       needCreateForm: [
@@ -223,7 +223,8 @@ export default {
       const localform = JSON.parse(localStorage.getItem('form'));
       const params = {
         ...localform,
-        ...this.formData
+        ...this.formData,
+        financround: this.financround
       };
       if (this.isNeedCreate) {
         params.financround = this.formData.financround.join(',');

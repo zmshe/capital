@@ -121,6 +121,7 @@ export default {
     this.setStatus(3);
     this.getFileList();
     this.form = { ...JSON.parse(localStorage.getItem('form')) };
+    this.filelist = [...JSON.parse(localStorage.getItem('fileList'))];
   },
   methods: {
     ...mapActions('create', ['setStatus']),
@@ -165,6 +166,7 @@ export default {
         ...this.form
       };
       localStorage.setItem('form', JSON.stringify(params));
+      localStorage.setItem('fileList', JSON.stringify(this.filelist));
       this.$router.push('step4');
     }
   }
