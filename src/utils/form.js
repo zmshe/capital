@@ -48,7 +48,7 @@ module.exports = {
       },
       {
         type: 'cascader',
-        width: '300px',
+        width: '350px',
         model: 'zonetype',
         label: '区域分类',
         labeldetail: '国内区域分类',
@@ -57,7 +57,7 @@ module.exports = {
       {
         type: 'input',
         inputtype: 'number',
-        width: '300px',
+        width: '350px',
         model: 'specificshareratio',
         label: '拟出让的股权比例',
         prepend: '具体股比',
@@ -81,7 +81,7 @@ module.exports = {
         inputtype: 'number',
         model: 'profitmonty',
         label: '盈利情况',
-        width: '300px',
+        width: '350px',
         after: 'profitunit',
         show: 'isprofitdisclosure',
         select: {
@@ -108,12 +108,20 @@ module.exports = {
       financmoney: [{ required: true, message: '请输入', trigger: 'blue' }],
       industry: [{ required: true, message: '请选择', trigger: 'change' }],
       zonetype: [{ required: true, message: '请选择', trigger: 'change' }],
-      specificshareratio: [{ required: true, message: '请输入', trigger: 'blur' }],
-      quasisellProjectMoney: [{ required: true, message: '请输入', trigger: 'blur' }],
-      islastyearprofit: [{ required: true, message: '请选择', trigger: 'change' }],
+      specificshareratio: [
+        { required: true, message: '请输入', trigger: 'blur' }
+      ],
+      quasisellProjectMoney: [
+        { required: true, message: '请输入', trigger: 'blur' }
+      ],
+      islastyearprofit: [
+        { required: true, message: '请选择', trigger: 'change' }
+      ],
       financmoneyunit: [{ required: true, message: '请输入', trigger: 'blur' }],
       profitmonty: [{ required: true, message: '请输入', trigger: 'blur' }],
-      lastfinancialinfo: [{ required: true, message: '请输入', trigger: 'blur' }]
+      lastfinancialinfo: [
+        { required: true, message: '请输入', trigger: 'blur' }
+      ]
     }
   },
   saleCreateChina2: {
@@ -136,7 +144,7 @@ module.exports = {
       },
       {
         type: 'cascader',
-        width: '300px',
+        width: '350px',
         model: 'zonetype',
         label: '区域分类',
         labeldetail: '国内区域分类',
@@ -145,7 +153,7 @@ module.exports = {
       {
         type: 'input',
         inputtype: 'number',
-        width: '300px',
+        width: '350px',
         model: 'specificshareratio',
         label: '拟出让的股权比例',
         prepend: '具体股比',
@@ -168,7 +176,7 @@ module.exports = {
         type: 'input',
         inputtype: 'number',
         model: 'profitmonty',
-        width: '300px',
+        width: '350px',
         label: '盈利情况',
         after: 'profitunit',
         show: 'isprofitdisclosure',
@@ -181,7 +189,7 @@ module.exports = {
       {
         type: 'input',
         inputtype: 'number',
-        width: '300px',
+        width: '350px',
         model: 'lastfinancialinfo',
         label: '上一财年公司简要财务信息',
         after: 'lastfinancialinfounit',
@@ -193,11 +201,19 @@ module.exports = {
       role: [{ required: true, message: '请选择', trigger: 'change' }],
       industry: [{ required: true, message: '请选择', trigger: 'change' }],
       zonetype: [{ required: true, message: '请选择', trigger: 'change' }],
-      specificshareratio: [{ required: true, message: '请输入', trigger: 'blue' }],
-      quasisellProjectMoney: [{ required: true, message: '请选择', trigger: 'change' }],
-      islastyearprofit: [{ required: true, message: '请选择', trigger: 'change' }],
+      specificshareratio: [
+        { required: true, message: '请输入', trigger: 'blue' }
+      ],
+      quasisellProjectMoney: [
+        { required: true, message: '请选择', trigger: 'change' }
+      ],
+      islastyearprofit: [
+        { required: true, message: '请选择', trigger: 'change' }
+      ],
       profitmonty: [{ required: true, message: '请输入', trigger: 'blue' }],
-      lastfinancialinfo: [{ required: true, message: '请输入', trigger: 'blur' }]
+      lastfinancialinfo: [
+        { required: true, message: '请输入', trigger: 'blur' }
+      ]
     }
   },
   saleCreateChina3: {
@@ -230,7 +246,7 @@ module.exports = {
       },
       {
         type: 'cascader',
-        width: '300px',
+        width: '350px',
         model: 'zonetype',
         label: '区域分类',
         labeldetail: '国内区域分类',
@@ -283,9 +299,15 @@ module.exports = {
       industry: [{ required: true, message: '请选择', trigger: 'change' }],
       zonetype: [{ required: true, message: '请选择', trigger: 'change' }],
       hisraisemoney: [{ required: true, message: '请输入', trigger: 'blur' }],
-      epicycleproposedmoney: [{ required: true, message: '请输入', trigger: 'blur' }],
-      epicyclealreadyamount: [{ required: true, message: '请输入', trigger: 'blur' }],
-      capitalcontribumoney: [{ required: true, message: '请输入', trigger: 'blur' }],
+      epicycleproposedmoney: [
+        { required: true, message: '请输入', trigger: 'blur' }
+      ],
+      epicyclealreadyamount: [
+        { required: true, message: '请输入', trigger: 'blur' }
+      ],
+      capitalcontribumoney: [
+        { required: true, message: '请输入', trigger: 'blur' }
+      ],
       projectirrmoney: [{ required: true, message: '请输入', trigger: 'blur' }],
       funddpl: [{ required: true, message: '请输入', trigger: 'blur' }]
     }
@@ -312,7 +334,7 @@ module.exports = {
       },
       {
         type: 'cascader',
-        width: '300px',
+        width: '350px',
         model: 'zonetype',
         label: '区域分类',
         options: '$area'
@@ -320,7 +342,7 @@ module.exports = {
       {
         type: 'input',
         inputtype: 'number',
-        width: '300px',
+        width: '350px',
         model: 'specificshareratio',
         label: '拟出让的股权比例',
         prepend: '具体股比',
@@ -331,7 +353,7 @@ module.exports = {
         inputtype: 'number',
         model: 'projectprice',
         label: '项目估值',
-        width: '300px',
+        width: '350px',
         after: 'projectpriceunit',
         show: 'isprojectpricedisclosure'
       },
@@ -346,11 +368,11 @@ module.exports = {
         inputtype: 'number',
         model: 'profitmonty',
         label: '盈利情况',
-        width: '300px',
+        width: '350px',
         after: 'profitunit',
         show: 'isprofitdisclosure',
         select: {
-          width: '120px',
+          width: '80px',
           model: 'profittype',
           children: ['净利润', 'EBITDA']
         }
@@ -370,11 +392,17 @@ module.exports = {
       role: [{ required: true, message: '请选择', trigger: 'change' }],
       industry: [{ required: true, message: '请选择', trigger: 'change' }],
       zonetype: [{ required: true, message: '请选择', trigger: 'change' }],
-      specificshareratio: [{ required: true, message: '请输入', trigger: 'blur' }],
+      specificshareratio: [
+        { required: true, message: '请输入', trigger: 'blur' }
+      ],
       projectprice: [{ required: true, message: '请输入', trigger: 'blur' }],
-      islastyearprofit: [{ required: true, message: '请输入', trigger: 'blur' }],
+      islastyearprofit: [
+        { required: true, message: '请输入', trigger: 'blur' }
+      ],
       profitmonty: [{ required: true, message: '请输入', trigger: 'blur' }],
-      lastfinancialinfo: [{ required: true, message: '请输入', trigger: 'blur' }]
+      lastfinancialinfo: [
+        { required: true, message: '请输入', trigger: 'blur' }
+      ]
     }
   },
   saleCreateHai2: {
@@ -399,7 +427,7 @@ module.exports = {
       },
       {
         type: 'cascader',
-        width: '300px',
+        width: '350px',
         model: 'zonetype',
         label: '区域分类',
         options: '$area'
@@ -413,7 +441,7 @@ module.exports = {
       {
         type: 'input',
         inputtype: 'number',
-        width: '300px',
+        width: '350px',
         model: 'specificshareratio',
         label: '拟出让的股权比例',
         prepend: '具体股比',
@@ -424,7 +452,7 @@ module.exports = {
         inputtype: 'number',
         model: 'projectprice',
         label: '项目要价',
-        width: '300px',
+        width: '350px',
         after: 'projectpriceunit',
         show: 'isprojectpricedisclosure',
         select: {
@@ -444,7 +472,7 @@ module.exports = {
         inputtype: 'number',
         model: 'profitmonty',
         label: '盈利情况',
-        width: '300px',
+        width: '350px',
         after: 'profitunit',
         show: 'isprofitdisclosure',
         select: {
@@ -469,11 +497,17 @@ module.exports = {
       industry: [{ required: true, message: '请选择', trigger: 'change' }],
       zonetype: [{ required: true, message: '请选择', trigger: 'change' }],
       currency: [{ required: true, message: '请选择', trigger: 'change' }],
-      specificshareratio: [{ required: true, message: '请选择', trigger: 'blur' }],
+      specificshareratio: [
+        { required: true, message: '请选择', trigger: 'blur' }
+      ],
       projectprice: [{ required: true, message: '请选择', trigger: 'blur' }],
-      islastyearprofit: [{ required: true, message: '请选择', trigger: 'blur' }],
+      islastyearprofit: [
+        { required: true, message: '请选择', trigger: 'blur' }
+      ],
       profitmonty: [{ required: true, message: '请选择', trigger: 'blur' }],
-      lastfinancialinfo: [{ required: true, message: '请选择', trigger: 'blur' }]
+      lastfinancialinfo: [
+        { required: true, message: '请选择', trigger: 'blur' }
+      ]
     }
   },
   needCreate1: {
@@ -508,7 +542,7 @@ module.exports = {
         type: 'input',
         inputtype: 'textarea',
         model: 'descinfo',
-        width: '400px',
+        width: '350px',
         rows: 10,
         label: '描述',
         placeholder: `需求描述是必填项,不能低于150字并且不能超过40000字
@@ -529,7 +563,7 @@ module.exports = {
       },
       {
         type: 'cascader',
-        width: '300px',
+        width: '350px',
         model: 'zonetype',
         label: '区域分类',
         labeldetail: '国内区域分类',
@@ -578,7 +612,7 @@ module.exports = {
         type: 'input',
         inputtype: 'textarea',
         model: 'descinfo',
-        width: '400px',
+        width: '350px',
         rows: 10,
         label: '描述',
         placeholder: `需求描述是必填项,不能低于150字并且不能超过40000字
@@ -599,7 +633,7 @@ module.exports = {
       },
       {
         type: 'cascader',
-        width: '300px',
+        width: '350px',
         model: 'zonetype',
         label: '区域分类',
         options: '$area'

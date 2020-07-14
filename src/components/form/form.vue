@@ -31,10 +31,10 @@
         controls-position="right"
         :min="0"
         :prop="item.model"
-        style="width: 300px"
+        style="width: 400px"
       >
         <el-select
-          :style="{ width: '100px' }"
+          :style="{ width: '120px' }"
           v-model="form[item.after]"
           placeholder="请选择"
           slot="append"
@@ -89,7 +89,7 @@
       >
         <el-select
           v-if="item.select"
-          :style="{ width: item.select.width }"
+          :style="{ width: '100px' }"
           v-model="form[item.select.model]"
           slot="prepend"
           placeholder="请选择"
@@ -100,6 +100,16 @@
             :label="_item"
             :value="_index + 1"
           ></el-option>
+        </el-select>
+
+        <el-select
+          v-if="item.after"
+          v-model="form[item.after]"
+          slot="append"
+          :style="{ width: '120px' }"
+        >
+          <el-option label="万" :value="1">万</el-option>
+          <el-option label="亿" :value="2">亿</el-option>
         </el-select>
 
         <template v-if="item.prepend" slot="prepend">{{

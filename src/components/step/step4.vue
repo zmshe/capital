@@ -60,21 +60,6 @@
             <div class="info">{{ form.descinfo }}</div>
           </div>
         </el-collapse-item>
-
-        <el-collapse-item title="保密协议(NDA)" name="5">
-          <div>
-            当前保密信息版本：<span>使用投航汇标准在线NDA</span>
-            <el-divider direction="vertical"></el-divider>
-            <el-link
-              type="primary"
-              :underline="false"
-              href="https://www.chinamerger.com/chinaMerger/public/NDA.pdf"
-              target="_blank"
-              >查看文件</el-link
-            >
-          </div>
-        </el-collapse-item>
-
         <el-collapse-item title="保密文件与发布者联系信息" name="6">
           <div>
             相关文档: <el-link type="primary" :underline="false">1.pdf</el-link>
@@ -166,6 +151,7 @@ export default {
         investroundstart: form.investroundstart ? form.investroundstart[0] : '',
         industry: form.industry ? form.industry.join('/') : '',
         zonetype: form.zonetype ? form.zonetype.join('/') : '',
+        financround: form.financround ? form.financround.join('/') : '',
         type: localStorage.getItem('formStatus')
       };
       const url = `/system/${

@@ -20,17 +20,6 @@
         <div class="details-userinfo-card">
           <el-card>
             <div class="flex">
-              <div class="details-userinfo-card-left">
-                <div>
-                  <div>
-                    <img
-                      width="80px"
-                      src="https://www.chinamerger.com/chinaMerger/public/skin/orange/images/grade_a01.png"
-                    />
-                  </div>
-                  <div style="margin-top:10px">PE/VC</div>
-                </div>
-              </div>
               <div class="details-userinfo-card-right">
                 <el-row>
                   <el-col :span="6" class="left"
@@ -58,7 +47,16 @@
               项目所在地区：<span>{{ data.zonetype }}</span>
             </div>
             <div>
-              所属行业：<span>{{ data.industry }}</span>
+              所属行业：<span
+                ><el-tag
+                  v-for="item in data.industry.split(',')"
+                  :key="item"
+                  effect="plain"
+                  :style="{ margin: '10px 10px 0px 0px' }"
+                >
+                  {{ item }}
+                </el-tag></span
+              >
             </div>
             <div>
               项目报价：<span>{{
