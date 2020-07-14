@@ -69,12 +69,12 @@ Vue.prototype.$area = area.map(item => {
 
 Vue.prototype.$trade = trade.map(item => {
   return {
-    value: item.name_cn,
-    label: item.name_cn,
-    children: item.children.map(_item => {
+    value: item.name,
+    label: item.name,
+    children: item.child.map(_item => {
       return {
-        value: _item.name_cn,
-        label: _item.name_cn
+        value: _item.name,
+        label: _item.name
       };
     })
   };

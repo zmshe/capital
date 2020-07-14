@@ -16,7 +16,7 @@ module.exports = {
         label: '融资方式',
         children: [
           { key: 1, value: '增资' },
-          { key: 2, value: '老股' }
+          { key: 2, value: '老股转让' }
         ]
       },
       {
