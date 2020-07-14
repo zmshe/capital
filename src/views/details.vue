@@ -42,7 +42,6 @@
       <div class="details-projectinfo">
         <el-collapse v-model="collapse"
           ><el-collapse-item title="项目概要" name="1">
-            <div>披露信息的范围：<span>面向所有用户</span></div>
             <div>
               项目所在地区：<span>{{ data.zonetype }}</span>
             </div>
