@@ -27,7 +27,7 @@
                     <div>公司名称</div></el-col
                   >
                   <el-col :span="18" class="right"
-                    ><div>{{ data.propublisher }}</div>
+                    ><div>{{ data.creator }}</div>
                     <div>
                       {{ data.organname }}
                     </div></el-col
@@ -40,59 +40,40 @@
       </div>
 
       <div class="details-projectinfo">
-        <el-collapse v-model="collapse"
-          ><el-collapse-item title="项目概要" name="1">
-            <div>
-              项目所在地区：<span>{{ data.zonetype }}</span>
-            </div>
-            <div>
-              所属行业：<span
-                ><el-tag
-                  v-for="item in data.industry.split(',')"
-                  :key="item"
-                  effect="plain"
-                  :style="{ margin: '10px 10px 0px 0px' }"
+        <el-collapse v-model="collapse">
+          <el-collapse-item title="项目概要" name="1">
+            <div v-for="item in showData" :key="item.label">
+              <span>{{ item.label }}：</span>
+              <span>
+                {{
+                  item.model === 'zonetype' || item.model === 'industry'
+                    ? ''
+                    : item.children
+                    ? item.children[data[item.model]]
+                    : data[item.model]
+                }}
+                <span v-if="item.after && item.after.indexOf('unit') !== -1">
+                  {{ data[item.after] === 1 ? '万' : '亿' }}
+                </span>
+                <span v-if="item.append">
+                  {{ item.append }}
+                </span>
+              </span>
+              <span v-if="item.model === 'zonetype'">{{
+                data[item.model]
+              }}</span>
+              <span v-if="item.model === 'industry'">
+                <el-tag
+                  v-for="_item in data[item.model].split(',')"
+                  :key="_item"
+                  :style="{ margin: '0px 10px 2px 0px' }"
                 >
-                  {{ item }}
-                </el-tag></span
-              >
+                  {{ _item }}
+                </el-tag>
+              </span>
             </div>
-            <div>
-              项目报价：<span>{{
-                data.isprojectpricedisclosure
-                  ? '不披露'
-                  : data.projectprice || '暂无信息'
-              }}</span>
-            </div>
-            <div>
-              交易方式：<span>{{
-                transactionmodeMap[data.transactionmode] || '暂无信息'
-              }}</span>
-            </div>
-            <div>挂单有效期：<span>长期</span></div>
-            <div>
-              上一财年简要财务信息：<span>{{ data.lastfinancialinfo }}</span>
-            </div>
-            <div>
-              上一财年是否盈利：<span>{{
-                islastyearprofitMap[data.islastyearprofit] || '暂无信息'
-              }}</span>
-            </div>
-            <div>
-              盈利情况：<span
-                >{{ data.profittype }} : {{ data.profitmonty }}
-                {{ data.profitunit }}</span
-              >
-            </div> </el-collapse-item
-          ><el-collapse-item title="项目详情" name="2">
-            <div>
-              项目描述
-              <div class="info">
-                {{ data.descinfo || '暂无信息' }}
-              </div>
-            </div>
-          </el-collapse-item></el-collapse
-        >
+          </el-collapse-item>
+        </el-collapse>
       </div>
 
       <div class="details-table">
@@ -166,6 +147,14 @@ export default {
   created() {
     this.getDetails().then(res => {
       this.data = res.data;
+      this.areatype = res.data.areatype === 1 ? 'China' : 'Hai';
+      this.flag = res.data.flag === 1 ? 'need' : 'sale';
+      this.showData = this.$form[
+        `${this.flag}Create${this.flag === 'sale' ? this.areatype : ''}${
+          this.data.type
+        }`
+      ].list;
+      console.log(this.showData);
       this.getSimilarlist();
       this.getPropublisherlist();
       this.getFilelist();
@@ -179,6 +168,9 @@ export default {
       similarlist: {},
       propublisherlist: {},
       data: {},
+      areatype: '',
+      flag: '',
+      showData: [],
       typeMap: {
         1: '企业融资项目',
         2: '企业并购项目',

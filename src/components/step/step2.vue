@@ -223,13 +223,13 @@ export default {
       const localform = JSON.parse(localStorage.getItem('form'));
       const params = {
         ...localform,
-        ...this.formData,
-        financround: this.financround
+        ...this.formData
       };
       if (this.isNeedCreate) {
         params.financround = this.formData.financround.join(',');
       }
       localStorage.setItem('form', JSON.stringify(params));
+      console.log(params);
       this.$router.push('step3');
     }
   },

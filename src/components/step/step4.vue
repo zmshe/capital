@@ -4,65 +4,67 @@
       <el-collapse v-model="activeNames">
         <el-collapse-item title="我的项目名称" name="1">
           <div>
-            内部项目名称：<span>{{ form.name }}</span>
+            项目名称：<span>{{ form.name }}</span>
           </div>
           <div>
-            项目编号：<span>{{ form.projectnum || '暂无信息' }}</span>
+            项目描述：<span>{{ form.descinfo }}</span>
           </div>
         </el-collapse-item>
 
         <el-collapse-item title="项目概要" name="2">
-          <div>披露信息的范围：<span>面向所有用户</span></div>
-          <div>
-            项目所在地区：<span>{{
-              form.zonetype ? form.zonetype.join('/') : '暂无信息'
-            }}</span>
+          <div v-for="item in $form[formtype].list" :key="item.label">
+            <span>{{ item.label }}：</span>
+            <span>
+              {{
+                item.model === 'zonetype' || item.model === 'industry'
+                  ? ''
+                  : item.children
+                  ? item.children[form[item.model]]
+                  : form[item.model]
+              }}
+              <span
+                v-if="
+                  item.after &&
+                    (item.after.indexOf('unit') !== -1 ||
+                      item.after.indexOf('Unit') !== -1)
+                "
+              >
+                {{ form[item.after] === 1 ? '万' : '亿' }}
+              </span>
+              <span v-if="item.append">
+                {{ item.append }}
+              </span>
+            </span>
+            <span v-if="item.model === 'zonetype'">{{ form[item.model] }}</span>
+            <span v-if="item.model === 'industry'">
+              <el-tag
+                v-for="_item in form[item.model].split('/')"
+                :key="_item"
+                :style="{ margin: '10px' }"
+              >
+                {{ _item }}
+              </el-tag>
+            </span>
           </div>
+        </el-collapse-item>
+        <el-collapse-item
+          title="保密文件与发布者联系信息"
+          name="6"
+          v-loading="fileloading"
+          element-loading-text="正在下载"
+          element-loading-spinner="el-icon-loading"
+        >
           <div>
-            所属行业：<span>{{
-              form.industry ? form.industry.join('/') : '暂无信息'
-            }}</span>
-          </div>
-          <div>
-            项目报价：<span>{{
-              form.isprojectpricedisclosure
-                ? '不披露'
-                : form.projectprice || '暂无信息'
-            }}</span>
-          </div>
-          <div>
-            交易方式：<span>{{
-              transactionmodeMap[form.transactionmode] || '暂无信息'
-            }}</span>
-          </div>
-          <div>挂单有效期：<span>长期</span></div>
-          <div>
-            上一财年简要财务信息：<span>{{
-              form.lastfinancialinfo || '暂无信息'
-            }}</span>
-          </div>
-          <div>
-            上一财年是否盈利：<span>{{
-              islastyearprofitMap[form.islastyearprofit] || '暂无信息'
-            }}</span>
-          </div>
-          <div>
-            盈利情况：<span
-              >{{ form.profittype }} : {{ form.profitmonty }}
-              {{ form.profitunit }}</span
+            相关文档:
+            <el-link
+              v-for="item in fileList"
+              :key="item.createDate"
+              type="primary"
+              :underline="false"
+              :style="{ marginRight: '10px' }"
+              @click="fileDownload({ url: item.url, filename: item.name })"
+              >{{ item.name }}</el-link
             >
-          </div>
-        </el-collapse-item>
-
-        <el-collapse-item title="项目详情" name="3">
-          <div>
-            项目描述
-            <div class="info">{{ form.descinfo }}</div>
-          </div>
-        </el-collapse-item>
-        <el-collapse-item title="保密文件与发布者联系信息" name="6">
-          <div>
-            相关文档: <el-link type="primary" :underline="false">1.pdf</el-link>
           </div>
         </el-collapse-item>
       </el-collapse>
@@ -109,10 +111,15 @@ import { mapActions } from 'vuex';
 export default {
   data() {
     return {
+      formtype: `${localStorage.getItem('formType')}${localStorage.getItem(
+        'formStatus'
+      )}`,
       form: {
         projectprivacy: 1
       },
+      fileList: JSON.parse(localStorage.getItem('fileList')),
       activeNames: ['1', '2', '3', '4', '5', '6'],
+      fileloading: false,
       needlist: [],
       salelist: [],
       formTypeMap: {
@@ -136,10 +143,27 @@ export default {
   },
   created() {
     this.setStatus(4);
-    this.form = { ...JSON.parse(localStorage.getItem('form')) };
+    this.form = {
+      ...JSON.parse(localStorage.getItem('form')),
+      ...this.form
+    };
   },
   methods: {
     ...mapActions('create', ['setStatus']),
+    async fileDownload({ url, filename }) {
+      this.fileloading = true;
+      const file = await this.$request.get(
+        `/system/tFile/readFile?path=${url}`,
+        { responseType: 'blob' }
+      );
+      const blob = new Blob([file]);
+      const fileurl = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = fileurl;
+      link.download = filename;
+      link.click();
+      this.fileloading = false;
+    },
     fallback() {
       this.$router.push('step3');
     },
@@ -148,10 +172,6 @@ export default {
       const params = {
         ...this.form,
         ...form,
-        investroundstart: form.investroundstart ? form.investroundstart[0] : '',
-        industry: form.industry ? form.industry.join('/') : '',
-        zonetype: form.zonetype ? form.zonetype.join('/') : '',
-        financround: form.financround ? form.financround.join('/') : '',
         type: localStorage.getItem('formStatus')
       };
       const url = `/system/${
@@ -186,7 +206,6 @@ export default {
       span {
         color: black;
         font-weight: 400;
-        margin-left: 5px;
       }
       .info {
         padding-left: 10px;

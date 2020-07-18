@@ -47,6 +47,19 @@
                   <span v-if="!listdata.rows[scope.$index].name">--</span>
                 </div>
               </div>
+              <div v-if="item.template.type === 'industry'">
+                <div>
+                  <el-tag
+                    v-for="_item in listdata.rows[scope.$index].industry.split(
+                      ','
+                    )"
+                    :key="_item"
+                  >
+                    {{ _item }}
+                  </el-tag>
+                  <span v-if="!listdata.rows[scope.$index].name">--</span>
+                </div>
+              </div>
               <div v-if="item.template.type === 'text'">
                 <div v-if="scope.row[item.prop]" class="hign">
                   {{ scope.row[item.prop] }}

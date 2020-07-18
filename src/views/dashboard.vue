@@ -74,9 +74,9 @@ export default {
       inlandList: {
         cur: true,
         list: [
-          { prop: 'propublisher', title: '发布人' },
+          { prop: 'creator', title: '发布人' },
           { prop: 'project', title: '项目', template: { type: 'text-tag' } },
-          { prop: 'industry', title: '行业' },
+          { prop: 'industry', title: '行业', template: { type: 'industry' } },
           { prop: 'type', title: '类型' },
           { prop: 'zonetype', title: '地区' },
           { prop: 'financeinfo', title: '财务信息', template: { type: 'text' } }
@@ -85,7 +85,7 @@ export default {
       foreignList: {
         cur: true,
         list: [
-          { prop: 'propublisher', title: '发布人' },
+          { prop: 'creator', title: '发布人' },
           { prop: 'project', title: '项目', template: { type: 'text-tag' } },
           { prop: 'industry', title: '行业' },
           { prop: 'type', title: '类型' },

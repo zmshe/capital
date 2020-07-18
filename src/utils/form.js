@@ -5,36 +5,38 @@ module.exports = {
         type: 'radio',
         model: 'role',
         label: '我在项目中的角色',
-        children: [
-          { key: 1, value: '企业股东或管理层' },
-          { key: 2, value: '财务顾问' }
-        ]
+        children: {
+          1: '企业股东或管理层',
+          2: '财务顾问'
+        }
       },
       {
         type: 'radio',
         model: 'financmode',
         label: '融资方式',
-        children: [
-          { key: 1, value: '增资' },
-          { key: 2, value: '老股转让' }
-        ]
+        children: {
+          1: '增资',
+          2: '老股转让'
+        }
       },
       {
         type: 'radio',
         model: 'financround',
         label: '融资轮次',
-        children: [
-          { key: 1, value: '天使轮' },
-          { key: 2, value: 'A轮' },
-          { key: 3, value: 'B轮' },
-          { key: 4, value: 'C轮' },
-          { key: 5, value: 'D轮以后' },
-          { key: 6, value: 'Pre-IPO' },
-          { key: 7, value: '二级市场' }
-        ]
+        children: {
+          1: '天使轮',
+          2: 'A轮',
+          3: 'B轮',
+          4: 'C轮',
+          5: 'D轮以后',
+          6: 'Pre-IPO',
+          7: '二级市场'
+        }
       },
       {
-        type: 'input-number',
+        type: 'input',
+        inputtype: 'number',
+        width: '350px',
         model: 'financmoney',
         label: '拟融资金额',
         after: 'financmoneyunit'
@@ -74,7 +76,11 @@ module.exports = {
         type: 'select',
         model: 'islastyearprofit',
         label: '上一财年是否盈利',
-        children: ['盈利', '亏损', '盈亏平衡']
+        children: {
+          1: '盈利',
+          2: '亏损',
+          3: '盈亏平衡'
+        }
       },
       {
         type: 'input',
@@ -87,13 +93,16 @@ module.exports = {
         select: {
           width: '120px',
           model: 'profittype',
-          children: ['净利润', 'EBITDA']
+          children: {
+            1: '净利润',
+            2: 'EBITDA'
+          }
         }
       },
       {
         type: 'input',
         inputtype: 'number',
-        width: '200px',
+        width: '300px',
         model: 'lastfinancialinfo',
         label: '上一财年公司简要财务信息',
         after: 'lastfinancialinfounit',
@@ -118,9 +127,11 @@ module.exports = {
         { required: true, message: '请选择', trigger: 'change' }
       ],
       financmoneyunit: [{ required: true, message: '请输入', trigger: 'blur' }],
-      profitmonty: [{ required: true, message: '请输入', trigger: 'blur' }],
+      profitmonty: [
+        { required: true, message: '请输入正确格式', trigger: 'blur' }
+      ],
       lastfinancialinfo: [
-        { required: true, message: '请输入', trigger: 'blur' }
+        { required: true, message: '请输入正确格式', trigger: 'blur' }
       ]
     }
   },
@@ -130,10 +141,10 @@ module.exports = {
         type: 'radio',
         model: 'role',
         label: '我在项目中的角色',
-        children: [
-          { key: 1, value: '企业股东或管理层' },
-          { key: 2, value: '财务顾问' }
-        ]
+        children: {
+          1: '企业股东或管理层',
+          2: '财务顾问'
+        }
       },
       {
         type: 'cascader',
@@ -170,7 +181,11 @@ module.exports = {
         type: 'select',
         model: 'islastyearprofit',
         label: '上一财年是否盈利',
-        children: ['盈利', '亏损', '盈亏平衡']
+        children: {
+          1: '盈利',
+          2: '亏损',
+          3: '盈亏平衡'
+        }
       },
       {
         type: 'input',
@@ -183,7 +198,10 @@ module.exports = {
         select: {
           width: '120px',
           model: 'profittype',
-          children: ['净利润', 'EBITDA']
+          children: {
+            1: '净利润',
+            2: 'EBITDA'
+          }
         }
       },
       {
@@ -222,20 +240,20 @@ module.exports = {
         type: 'radio',
         model: 'role',
         label: '我在项目中的角色',
-        children: [
-          { key: 3, value: '基金GP' },
-          { key: 4, value: '基金LP' },
-          { key: 2, value: '财务顾问' }
-        ]
+        children: {
+          3: '基金GP',
+          4: '基金LP',
+          2: '财务顾问'
+        }
       },
       {
         type: 'radio',
         model: 'fundrais',
         label: '募资方式',
-        children: [
-          { key: 1, value: '增资' },
-          { key: 2, value: '原有LP份额转让' }
-        ]
+        children: {
+          1: '增资',
+          2: '原有LP份额转让'
+        }
       },
       {
         type: 'cascader',
@@ -318,12 +336,12 @@ module.exports = {
         type: 'radio',
         model: 'role',
         label: '我在项目中的角色',
-        children: [
-          { key: 2, value: '财务顾问' },
-          { key: 9, value: '股东/所有者' },
-          { key: 10, value: '潜在联合投资人' },
-          { key: 11, value: '政府或协会' }
-        ]
+        children: {
+          2: '财务顾问',
+          9: '股东/所有者',
+          10: '潜在联合投资人',
+          11: '政府或协会'
+        }
       },
       {
         type: 'cascader',
@@ -361,7 +379,11 @@ module.exports = {
         type: 'select',
         model: 'islastyearprofit',
         label: '上一财年是否盈利',
-        children: ['盈利', '亏损', '盈亏平衡']
+        children: {
+          1: '盈利',
+          2: '亏损',
+          3: '盈亏平衡'
+        }
       },
       {
         type: 'input',
@@ -374,13 +396,16 @@ module.exports = {
         select: {
           width: '80px',
           model: 'profittype',
-          children: ['净利润', 'EBITDA']
+          children: {
+            1: '净利润',
+            2: 'EBITDA'
+          }
         }
       },
       {
         type: 'input',
         inputtype: 'number',
-        width: '200px',
+        width: '300px',
         model: 'lastfinancialinfo',
         label: '上一财年公司简要财务信息',
         after: 'lastfinancialinfounit',
@@ -411,12 +436,12 @@ module.exports = {
         type: 'radio',
         model: 'role',
         label: '我在项目中的角色',
-        children: [
-          { key: 2, value: '财务顾问' },
-          { key: 9, value: '股东/所有者' },
-          { key: 10, value: '潜在联合投资人' },
-          { key: 11, value: '政府或协会' }
-        ]
+        children: {
+          2: '财务顾问',
+          9: '股东/所有者',
+          10: '潜在联合投资人',
+          11: '政府或协会'
+        }
       },
       {
         type: 'cascader',
@@ -436,7 +461,11 @@ module.exports = {
         type: 'select',
         label: '币种',
         model: 'currency',
-        children: ['美元', '欧元', '日元']
+        children: {
+          1: '美元',
+          2: '欧元',
+          3: '日元'
+        }
       },
       {
         type: 'input',
@@ -454,18 +483,17 @@ module.exports = {
         label: '项目要价',
         width: '350px',
         after: 'projectpriceunit',
-        show: 'isprojectpricedisclosure',
-        select: {
-          width: '120px',
-          model: 'projectpricetype',
-          children: ['待定']
-        }
+        show: 'isprojectpricedisclosure'
       },
       {
         type: 'select',
         model: 'islastyearprofit',
         label: '上一财年是否盈利',
-        children: ['盈利', '亏损', '盈亏平衡']
+        children: {
+          1: '盈利',
+          2: '亏损',
+          3: '盈亏平衡'
+        }
       },
       {
         type: 'input',
@@ -478,13 +506,16 @@ module.exports = {
         select: {
           width: '120px',
           model: 'profittype',
-          children: ['净利润', 'EBITDA']
+          children: {
+            1: '净利润',
+            2: 'EBITDA'
+          }
         }
       },
       {
         type: 'input',
         inputtype: 'number',
-        width: '200px',
+        width: '300px',
         model: 'lastfinancialinfo',
         label: '上一财年公司简要财务信息',
         after: 'lastfinancialinfounit',
@@ -516,21 +547,21 @@ module.exports = {
         type: 'radio',
         model: 'role',
         label: '我的角色',
-        children: [
-          { key: 6, value: '上市公司' },
-          { key: 7, value: 'PE或VC投资基金' },
-          { key: 8, value: '并购基金' },
-          { key: 2, value: '财务顾问' }
-        ]
+        children: {
+          6: '上市公司',
+          7: 'PE或VC投资基金',
+          8: '并购基金',
+          2: '财务顾问'
+        }
       },
       {
         type: 'radio',
         model: 'investtactful',
         label: '投资策略',
-        children: [
-          { key: 1, value: '控股并购' },
-          { key: 3, value: '两者兼有' }
-        ]
+        children: {
+          1: '控股并购',
+          3: '两者兼有'
+        }
       },
       {
         type: 'input',
@@ -585,22 +616,22 @@ module.exports = {
         type: 'radio',
         model: 'role',
         label: '我的角色',
-        children: [
-          { key: 6, value: '上市公司' },
-          { key: 7, value: 'PE或VC投资基金' },
-          { key: 8, value: '并购基金' },
-          { key: 2, value: '财务顾问' }
-        ]
+        children: {
+          6: '上市公司',
+          7: 'PE或VC投资基金',
+          8: '并购基金',
+          2: '财务顾问'
+        }
       },
       {
         type: 'radio',
         model: 'investtactful',
         label: '投资策略',
-        children: [
-          { key: 1, value: '控股并购' },
-          { key: 2, value: '少数股权投资' },
-          { key: 3, value: '两者兼有' }
-        ]
+        children: {
+          1: '控股并购',
+          2: '少数股权投资',
+          3: '两者兼有'
+        }
       },
       {
         type: 'input',

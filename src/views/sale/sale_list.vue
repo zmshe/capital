@@ -69,7 +69,15 @@ export default {
   methods: {
     async editFun(row) {
       this.$router.push('createdetail');
-      localStorage.setItem('form', JSON.stringify(row));
+      localStorage.setItem(
+        'form',
+        JSON.stringify({
+          ...row,
+          financround: Number(row.financround),
+          islastyearprofit: String(row.islastyearprofit),
+          profittype: String(row.profittype)
+        })
+      );
       localStorage.setItem(
         'formType',
         row.areatype === 1 ? 'saleCreateChina' : 'saleCreateHai'

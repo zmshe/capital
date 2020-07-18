@@ -18,10 +18,10 @@
         :prop="item.model"
       >
         <el-radio
-          v-for="_item in item.children"
-          :key="_item.key"
-          :label="_item.key"
-          >{{ _item.value }}</el-radio
+          v-for="_item in Object.keys(item.children)"
+          :key="_item"
+          :label="Number(_item)"
+          >{{ item.children[_item] }}</el-radio
         >
       </el-radio-group>
 
@@ -64,7 +64,9 @@
         v-if="item.type === 'cascader'"
         :style="{ width: item.width }"
         placeholder="请选择"
-        :props="{ multiple: item.label === '行业分类' ? true : false }"
+        :props="{
+          multiple: item.label === '行业分类' ? true : false
+        }"
         v-model="form[item.model]"
         :options="
           item.labeldetail === '国内区域分类'
@@ -73,6 +75,7 @@
             ? $trade
             : $area
         "
+        :show-all-levels="false"
         :prop="item.model"
         filterable
       ></el-cascader>
@@ -95,10 +98,10 @@
           placeholder="请选择"
         >
           <el-option
-            v-for="(_item, _index) in item.select.children"
-            :key="_index"
-            :label="_item"
-            :value="_index + 1"
+            v-for="_item in Object.keys(item.select.children)"
+            :key="_item"
+            :label="item.select.children[_item]"
+            :value="_item"
           ></el-option>
         </el-select>
 
@@ -125,11 +128,11 @@
         :prop="item.model"
       >
         <el-option
-          v-for="(_item, _index) in item.children"
-          :key="_index"
-          :label="_item"
-          :value="_index + 1"
-          >{{ _item }}</el-option
+          v-for="_item in Object.keys(item.children)"
+          :key="_item"
+          :label="item.children[_item]"
+          :value="_item"
+          >{{ item.children[_item] }}</el-option
         >
       </el-select>
 
@@ -173,7 +176,7 @@ export default {
         }
       }
       if (item.select) {
-        tmpObj[item.select.model] = 1;
+        tmpObj[item.select.model] = '1';
       }
     });
     this.form = { ...tmpObj };
@@ -183,14 +186,26 @@ export default {
     ) {
       this.$router.push('/dashboard');
     }
-    this.form = { ...this.form, ...JSON.parse(localStorage.getItem('form')) };
+    this.form = {
+      ...this.form,
+      ...JSON.parse(localStorage.getItem('form')),
+      industry: JSON.parse(localStorage.getItem('form')).industry.split('/'),
+      zonetype: JSON.parse(localStorage.getItem('form')).zonetype.split('/')
+    };
   },
   computed: {},
   methods: {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          localStorage.setItem('form', JSON.stringify(this.form));
+          localStorage.setItem(
+            'form',
+            JSON.stringify({
+              ...this.form,
+              industry: this.form.industry.join('/'),
+              zonetype: this.form.zonetype.join('/')
+            })
+          );
           this.$router.push('/createdetail/step2');
         } else {
           return false;

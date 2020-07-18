@@ -28,7 +28,11 @@
 
         <el-form-item label="上传保密文件（Data Room）">
           <div class="flex">
-            <el-table :data="filelist" style="{width: 80px}">
+            <el-table
+              :data="filelist"
+              style="{width: 80px}"
+              v-loading="uploadloading"
+            >
               <el-table-column prop="name" label="文件名" />
               <el-table-column prop="creator" label="文档所有人" />
               <el-table-column prop="createDate" label="上传时间" />
@@ -55,8 +59,9 @@
                 ref="upload"
                 :action="url"
                 :show-file-list="false"
+                :on-progress="beforeupload"
                 :on-success="upload"
-                :data="{ token }"
+                :data="{ token, buzid }"
                 multiple
               >
                 <el-button
@@ -70,6 +75,7 @@
               </el-upload>
               <el-card class="box-card">
                 <div style="padding-left:14px">文档可能包括</div>
+                <div>{{ buzid }}</div>
                 <div><i class="el-icon-success"></i> 商业计划书 BP</div>
                 <div><i class="el-icon-success"></i> 信息备忘录IM</div>
                 <div><i class="el-icon-success"></i> 其他材料</div>
@@ -104,9 +110,10 @@
 <script>
 import { mapActions } from 'vuex';
 export default {
-  // <common-table :list="list" />
   data() {
     return {
+      uploadloading: false,
+      buzid: '',
       token: localStorage.getItem('token'),
       isNeedCreate: localStorage.getItem('formType') === 'needCreate',
       form: {},
@@ -122,19 +129,32 @@ export default {
     this.getFileList();
     this.form = { ...JSON.parse(localStorage.getItem('form')) };
     this.filelist = [...JSON.parse(localStorage.getItem('fileList'))];
+    this.buzid = localStorage.getItem('buzid');
   },
   methods: {
     ...mapActions('create', ['setStatus']),
     formatSize(rows) {
-      console.log(rows);
-      return `${(+rows.size).toFixed(2)}kb`;
+      return `${(rows ? +rows.size : '').toFixed(2)}kb`;
     },
     upload(response, file, fileList) {
+      if (response.code !== 200) {
+        this.$message.error('上传的格式不支持');
+        this.uploadloading = false;
+        return;
+      }
       const tmpFilelist = this.filelist;
       tmpFilelist.push(response.data);
       this.filelist = tmpFilelist;
+      localStorage.setItem('buzid', this.filelist[0].buzid);
+      this.buzid = localStorage.getItem('buzid');
+      this.uploadloading = false;
+    },
+    beforeupload() {
+      console.log(this.buzid);
+      this.uploadloading = true;
     },
     async deleteFun(row) {
+      this.uploadloading = true;
       const tmpFilelist = this.filelist;
       const data = await this.$request.post('/system/tFile/remove', {
         id: row.id
@@ -145,6 +165,7 @@ export default {
           return item.id !== row.id;
         });
       }
+      this.uploadloading = false;
     },
     async getFileList() {
       const data = await this.$request.post('/system/tFile/list');

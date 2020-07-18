@@ -13,7 +13,7 @@
           :style="{ background: '#FE9D2B', fontSize: '24px' }"
           >{{ item.creator }}</el-avatar
         >
-        <el-tag>{{ item.pid }}</el-tag>
+        <el-tag>{{ item.pro }}</el-tag>
         <div class="message-name">
           {{ item.createBy }}
           <div v-if="item.no" class="message-new">
@@ -100,8 +100,8 @@ export default {
   methods: {
     async reply(data) {
       this.data = data;
-      const list = await this.$request.post('/system/tReceivemessage/list', {
-        pid: this.data.pid
+      const list = await this.$request.post('/system/tSendmessage/alondlist', {
+        ppid: this.data.ppid
       });
       const tmpMessagelist = list.data.rows.filter(item => {
         return item.creator === this.data.creator;
@@ -112,8 +112,9 @@ export default {
     async sendMessage() {
       const data = await this.$request.post('/system/tReceivemessage/add', {
         pid: this.data.pid,
+        // creator: this.data.creator,
+        // ppid: this.data.ppid,
         message: this.message,
-        creator: this.data.creator,
         reseruser: localStorage.getItem('username')
       });
       if (data.code === 200) {
@@ -128,19 +129,8 @@ export default {
       this.dialogVisible = false;
     },
     async getMessageList() {
-      const tmpObj = {};
-      const data = await this.$request.post('/system/tReceivemessage/list');
-      data.data.rows.forEach(item => {
-        if (item.creator !== localStorage.getItem('username')) {
-          tmpObj[`${item.pid}${item.creator}`] = null;
-        }
-      });
-      data.data.rows.forEach(item => {
-        if (!tmpObj[`${item.pid}${item.creator}`]) {
-          tmpObj[`${item.pid}${item.creator}`] = item;
-        }
-      });
-      this.messageList = tmpObj;
+      const data = await this.$request.post('/system/tSendmessage/alondlist');
+      this.messageList = data.data.rows;
     }
   }
 };
