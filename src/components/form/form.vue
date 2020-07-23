@@ -65,7 +65,8 @@
         :style="{ width: item.width }"
         placeholder="请选择"
         :props="{
-          multiple: item.label === '行业分类' ? true : false
+          multiple: item.label === '行业分类' ? true : false,
+          checkStrictly: item.label === '行业分类' ? true : false
         }"
         v-model="form[item.model]"
         :options="
@@ -189,8 +190,12 @@ export default {
     this.form = {
       ...this.form,
       ...JSON.parse(localStorage.getItem('form')),
-      industry: JSON.parse(localStorage.getItem('form')).industry.split('/'),
-      zonetype: JSON.parse(localStorage.getItem('form')).zonetype.split('/')
+      industry: JSON.parse(localStorage.getItem('form')).industry
+        ? JSON.parse(localStorage.getItem('form')).industry.split('/')
+        : [],
+      zonetype: JSON.parse(localStorage.getItem('form')).zonetype
+        ? JSON.parse(localStorage.getItem('form')).zonetype.split('/')
+        : []
     };
   },
   computed: {},

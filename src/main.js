@@ -71,10 +71,16 @@ Vue.prototype.$trade = trade.map(item => {
   return {
     value: item.name,
     label: item.name,
-    children: item.child.map(_item => {
+    children: item.children.map(_item => {
       return {
         value: _item.name,
-        label: _item.name
+        label: _item.name,
+        children: _item.children.map(_item1 => {
+          return {
+            value: _item1.name,
+            label: _item1.name
+          };
+        })
       };
     })
   };
