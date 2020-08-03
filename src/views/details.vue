@@ -12,7 +12,7 @@
         <div class="details-userinfo-title">
           <div>发布人信息</div>
           <div :style="{ marginRight: '10px' }">
-            <el-button type="primary" @click="messageDialog = true"
+            <el-button type="primary" @click="submitMessage"
               >发送站内信</el-button
             >
           </div>
@@ -41,6 +41,14 @@
 
       <div class="details-projectinfo">
         <el-collapse v-model="collapse">
+          <el-collapse-item title="项目名称" name="0">
+            <div>
+              项目名称：<span>{{ data.name }}</span>
+            </div>
+            <div>
+              项目描述：<span>{{ data.descinfo }}</span>
+            </div>
+          </el-collapse-item>
           <el-collapse-item title="项目概要" name="1">
             <div v-for="item in showData" :key="item.label">
               <span>{{ item.label }}：</span>
@@ -79,7 +87,7 @@
       <div class="details-table">
         <div style="margin-bottom:20px">
           <div class="details-table-title">同类项目</div>
-          <el-table :data="similarlist.rows">
+          <el-table :data="similarlist">
             <el-table-column prop="propublisher" label="发布人" />
             <el-table-column prop="name" label="项目">
               <template slot-scope="scope">
@@ -101,7 +109,7 @@
 
         <div>
           <div class="details-table-title">发布人的其他项目</div>
-          <el-table :data="propublisherlist.rows">
+          <el-table :data="propublisherlist">
             <el-table-column prop="propublisher" label="发布人" />
             <el-table-column prop="name" label="项目">
               <template slot-scope="scope">
@@ -154,7 +162,6 @@ export default {
           this.data.type
         }`
       ].list;
-      console.log(this.showData);
       this.getSimilarlist();
       this.getPropublisherlist();
       this.getFilelist();
@@ -164,9 +171,9 @@ export default {
     return {
       messageDialog: false,
       message: '',
-      collapse: ['1', '2'],
-      similarlist: {},
-      propublisherlist: {},
+      collapse: ['0', '1', '2'],
+      similarlist: [],
+      propublisherlist: [],
       data: {},
       areatype: '',
       flag: '',
@@ -190,12 +197,19 @@ export default {
     };
   },
   methods: {
+    submitMessage() {
+      if (this.data.creator === sessionStorage.getItem('username')) {
+        this.$message.warning('您自己的项目不能发送站内信哦！');
+        return;
+      }
+      this.messageDialog = true;
+    },
     async sendMessage() {
       const data = await this.$request.post('/system/tSendmessage/add', {
         pid: this.data.id,
         message: this.message,
-        creator: localStorage.getItem('username'),
-        reseruser: localStorage.getItem('username')
+        creator: sessionStorage.getItem('username'),
+        reseruser: sessionStorage.getItem('username')
       });
       if (data.code === 200) {
         this.$message.success('发送成功');
@@ -222,14 +236,18 @@ export default {
       const data = await this.$request.post('/system/pro/similarlist', {
         industry: this.data.industry
       });
-      this.similarlist = data.data;
+      this.similarlist = data.data.rows.filter(
+        item => item.id !== this.data.id
+      );
     },
     // 发布人的其他项目
     async getPropublisherlist() {
       const data = await this.$request.post('/system/pro/propublisherlist', {
         propublisher: this.data.propublisher
       });
-      this.propublisherlist = data.data;
+      this.propublisherlist = data.data.rows.filter(
+        item => item.id !== this.data.id
+      );
     },
     async getFilelist() {
       await this.$request.post('/system/tFile/list');

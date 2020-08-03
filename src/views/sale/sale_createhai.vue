@@ -8,16 +8,16 @@
 export default {
   methods: {
     create(type) {
-      localStorage.setItem('formType', this.info.type);
-      localStorage.setItem('formStatus', type);
-      localStorage.setItem(
+      sessionStorage.setItem('formType', this.info.type);
+      sessionStorage.setItem('formStatus', type);
+      sessionStorage.setItem(
         'steps',
         '项目要素,项目信息,项目保密文件,预览,发布成功'
       );
-      localStorage.setItem('form', '{}');
-      localStorage.setItem('fileList', '[]');
-      localStorage.setItem('buzid', '');
-      localStorage.setItem('detailsType', 'add');
+      sessionStorage.setItem('form', '{}');
+      sessionStorage.setItem('fileList', '[]');
+      sessionStorage.setItem('buzid', '');
+      sessionStorage.setItem('detailsType', 'add');
       this.$router.push(this.info.url);
     }
   },
@@ -36,12 +36,12 @@ export default {
         createTitle: '请选择您要发布的项目类型',
         createType: [
           {
-            key: '1',
+            key: '2',
             title: '企业并购项目',
             content: '拟出让企业绝对或相对控股权。'
           },
           {
-            key: '2',
+            key: '1',
             title: '企业融资项目',
             content: '拟进行少数股权融资。可通过增资或老股转让方式'
           }

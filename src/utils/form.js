@@ -259,7 +259,7 @@ module.exports = {
         type: 'cascader',
         width: '500px',
         model: 'industry',
-        label: '行业分类',
+        label: '主要投资行业',
         options: '$trade'
       },
       {
@@ -337,10 +337,8 @@ module.exports = {
         model: 'role',
         label: '我在项目中的角色',
         children: {
-          2: '财务顾问',
-          9: '股东/所有者',
-          10: '潜在联合投资人',
-          11: '政府或协会'
+          1: '企业股东或管理层',
+          2: '财务顾问'
         }
       },
       {
@@ -356,6 +354,16 @@ module.exports = {
         model: 'zonetype',
         label: '区域分类',
         options: '$area'
+      },
+      {
+        type: 'select',
+        label: '币种',
+        model: 'currency',
+        children: {
+          1: '美元',
+          2: '欧元',
+          3: '日元'
+        }
       },
       {
         type: 'input',
@@ -417,6 +425,7 @@ module.exports = {
       role: [{ required: true, message: '请选择', trigger: 'change' }],
       industry: [{ required: true, message: '请选择', trigger: 'change' }],
       zonetype: [{ required: true, message: '请选择', trigger: 'change' }],
+      currency: [{ required: true, message: '请选择', trigger: 'change' }],
       specificshareratio: [
         { required: true, message: '请输入', trigger: 'blur' }
       ],
@@ -437,10 +446,8 @@ module.exports = {
         model: 'role',
         label: '我在项目中的角色',
         children: {
-          2: '财务顾问',
-          9: '股东/所有者',
-          10: '潜在联合投资人',
-          11: '政府或协会'
+          1: '企业股东或管理层',
+          2: '财务顾问'
         }
       },
       {
@@ -480,7 +487,7 @@ module.exports = {
         type: 'input',
         inputtype: 'number',
         model: 'projectprice',
-        label: '项目要价',
+        label: '项目估值',
         width: '350px',
         after: 'projectpriceunit',
         show: 'isprojectpricedisclosure'
@@ -560,6 +567,7 @@ module.exports = {
         label: '投资策略',
         children: {
           1: '控股并购',
+          2: '少数股权投资',
           3: '两者兼有'
         }
       },

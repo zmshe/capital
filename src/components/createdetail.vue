@@ -21,8 +21,8 @@ export default {
   data() {
     return {
       active: 1,
-      steps: localStorage.getItem('steps').split(','),
-      isNeedCreate: localStorage.getItem('formType') === 'needCreate'
+      steps: sessionStorage.getItem('steps').split(','),
+      isNeedCreate: sessionStorage.getItem('formType') === 'needCreate'
     };
   },
   created() {

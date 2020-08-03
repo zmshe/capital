@@ -77,6 +77,15 @@
           <div class="authen">
             <div class="authen-title">
               上传名片完成实名认证，开启智能撮合新时代！
+              <el-tag effect="dark" :type="fowStateMap[fowState]">
+                {{
+                  fowState === '1'
+                    ? '待认证'
+                    : fowState === '2'
+                    ? '已认证'
+                    : '认证未通过'
+                }}
+              </el-tag>
             </div>
             <div class="flex">
               <div>
@@ -117,6 +126,11 @@
 export default {
   data() {
     return {
+      fowStateMap: {
+        1: 'warning',
+        2: 'success',
+        3: 'danger'
+      },
       imgurl: '',
       loading: false,
       form: {},
@@ -128,6 +142,7 @@ export default {
         '我是金融服务机构',
         '我是政府部门/协会'
       ],
+      fowState: sessionStorage.getItem('fowState'),
       url:
         process.env.NODE_ENV === 'development'
           ? '/api/system/tFile/fileUpload'
@@ -162,14 +177,14 @@ export default {
       });
       if (data.code === 200) {
         this.$message.success('修改成功');
-        localStorage.setItem('username', data.data.name);
+        sessionStorage.setItem('username', data.data.name);
         this.getUserInfo();
       }
     },
     async getUserInfo() {
       this.loading = true;
       const data = await this.$request.get(
-        `/system/tUser/search/${localStorage.getItem('id')}`
+        `/system/tUser/search/${sessionStorage.getItem('id')}`
       );
       this.form = data.data;
       const image = await this.$request.get(

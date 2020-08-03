@@ -48,7 +48,7 @@
           </div>
         </el-collapse-item>
         <el-collapse-item
-          title="保密文件与发布者联系信息"
+          title="保密文件"
           name="6"
           v-loading="fileloading"
           element-loading-text="正在下载"
@@ -111,13 +111,13 @@ import { mapActions } from 'vuex';
 export default {
   data() {
     return {
-      formtype: `${localStorage.getItem('formType')}${localStorage.getItem(
+      formtype: `${sessionStorage.getItem('formType')}${sessionStorage.getItem(
         'formStatus'
       )}`,
       form: {
         projectprivacy: 1
       },
-      fileList: JSON.parse(localStorage.getItem('fileList')),
+      fileList: JSON.parse(sessionStorage.getItem('fileList')),
       activeNames: ['1', '2', '3', '4', '5', '6'],
       fileloading: false,
       needlist: [],
@@ -126,7 +126,7 @@ export default {
         saleCreateChina: 'tProject',
         saleCreateHai: 'tProjectout',
         needCreate:
-          localStorage.getItem('formStatus') === '1' ? 'tneed' : 'tneedout'
+          sessionStorage.getItem('formStatus') === '1' ? 'tneed' : 'tneedout'
       },
       transactionmodeMap: {
         1: '协议转让',
@@ -144,7 +144,7 @@ export default {
   created() {
     this.setStatus(4);
     this.form = {
-      ...JSON.parse(localStorage.getItem('form')),
+      ...JSON.parse(sessionStorage.getItem('form')),
       ...this.form
     };
   },
@@ -168,21 +168,26 @@ export default {
       this.$router.push('step3');
     },
     async submitForm() {
-      const form = JSON.parse(localStorage.getItem('form'));
+      const form = JSON.parse(sessionStorage.getItem('form'));
       const params = {
         ...this.form,
         ...form,
-        type: localStorage.getItem('formStatus')
+        type: sessionStorage.getItem('formStatus')
       };
       const url = `/system/${
-        this.formTypeMap[localStorage.getItem('formType')]
-      }/${localStorage.getItem('detailsType')}`;
+        this.formTypeMap[sessionStorage.getItem('formType')]
+      }/${sessionStorage.getItem('detailsType')}`;
       const data = await this.$request.post(url, {
         ...params
       });
       if (data.code === 200) {
-        localStorage.setItem('detailsType', '');
+        sessionStorage.setItem('detailsType', '');
         this.$router.push('step5');
+        if (sessionStorage.getItem('fowState') !== 2) {
+          this.$message.warning(
+            '谢谢提交。您尚未进行实名认证，请到资料设置中上传名片，进行实名认证，项目才能正常显示。'
+          );
+        }
       } else {
         this.$message({
           message: data.msg,

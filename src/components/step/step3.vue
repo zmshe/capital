@@ -114,8 +114,8 @@ export default {
     return {
       uploadloading: false,
       buzid: '',
-      token: localStorage.getItem('token'),
-      isNeedCreate: localStorage.getItem('formType') === 'needCreate',
+      token: sessionStorage.getItem('token'),
+      isNeedCreate: sessionStorage.getItem('formType') === 'needCreate',
       form: {},
       url:
         process.env.NODE_ENV === 'development'
@@ -127,9 +127,9 @@ export default {
   created() {
     this.setStatus(3);
     this.getFileList();
-    this.form = { ...JSON.parse(localStorage.getItem('form')) };
-    this.filelist = [...JSON.parse(localStorage.getItem('fileList'))];
-    this.buzid = localStorage.getItem('buzid');
+    this.form = { ...JSON.parse(sessionStorage.getItem('form')) };
+    this.filelist = [...JSON.parse(sessionStorage.getItem('fileList'))];
+    this.buzid = sessionStorage.getItem('buzid');
   },
   methods: {
     ...mapActions('create', ['setStatus']),
@@ -145,8 +145,8 @@ export default {
       const tmpFilelist = this.filelist;
       tmpFilelist.push(response.data);
       this.filelist = tmpFilelist;
-      localStorage.setItem('buzid', this.filelist[0].buzid);
-      this.buzid = localStorage.getItem('buzid');
+      sessionStorage.setItem('buzid', this.filelist[0].buzid);
+      this.buzid = sessionStorage.getItem('buzid');
       this.uploadloading = false;
     },
     beforeupload() {
@@ -181,13 +181,13 @@ export default {
           return;
         }
       }
-      const localform = JSON.parse(localStorage.getItem('form'));
+      const localform = JSON.parse(sessionStorage.getItem('form'));
       const params = {
         ...localform,
         ...this.form
       };
-      localStorage.setItem('form', JSON.stringify(params));
-      localStorage.setItem('fileList', JSON.stringify(this.filelist));
+      sessionStorage.setItem('form', JSON.stringify(params));
+      sessionStorage.setItem('fileList', JSON.stringify(this.filelist));
       this.$router.push('step4');
     }
   }

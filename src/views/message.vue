@@ -2,7 +2,7 @@
   <div class="message">
     <div class="message-title">消息列表</div>
     <el-divider></el-divider>
-    <div>
+    <div v-loading="loading">
       <el-card
         v-for="(item, index) in messageList"
         :key="index"
@@ -13,7 +13,7 @@
           :style="{ background: '#FE9D2B', fontSize: '24px' }"
           >{{ item.creator }}</el-avatar
         >
-        <el-tag>{{ item.pro }}</el-tag>
+        <div class="message-pro">{{ item.pro }}</div>
         <div class="message-name">
           {{ item.createBy }}
           <div v-if="item.no" class="message-new">
@@ -22,8 +22,8 @@
         </div>
         <div class="message-info">{{ item.message }}</div>
         <div class="message-time">{{ item.createDate }}</div>
-        <div class="message-reply" @click="reply(item)">
-          <span>去回复 &gt;</span>
+        <div class="message-reply">
+          <span @click="reply(item)">去回复 &gt;</span>
         </div>
       </el-card>
       <el-dialog
@@ -78,6 +78,9 @@
           </el-card>
         </div>
       </el-dialog>
+      <div class="message-none" v-if="messageList.length === 0">
+        暂无消息
+      </div>
     </div>
   </div>
 </template>
@@ -89,12 +92,13 @@ export default {
   },
   data() {
     return {
+      loading: false,
       dialogVisible: false,
       message: '',
-      messageList: {},
+      messageList: [],
       data: {},
       messageHistory: [],
-      username: localStorage.getItem('username')
+      username: sessionStorage.getItem('username')
     };
   },
   methods: {
@@ -112,10 +116,8 @@ export default {
     async sendMessage() {
       const data = await this.$request.post('/system/tReceivemessage/add', {
         pid: this.data.pid,
-        // creator: this.data.creator,
-        // ppid: this.data.ppid,
         message: this.message,
-        reseruser: localStorage.getItem('username')
+        reseruser: sessionStorage.getItem('username')
       });
       if (data.code === 200) {
         this.$message.success('发送成功');
@@ -129,8 +131,10 @@ export default {
       this.dialogVisible = false;
     },
     async getMessageList() {
+      this.loading = true;
       const data = await this.$request.post('/system/tSendmessage/alondlist');
       this.messageList = data.data.rows;
+      this.loading = false;
     }
   }
 };
@@ -155,16 +159,20 @@ export default {
       line-height: 80px;
     }
   }
+  &-pro {
+    font-size: 20px;
+    font-weight: 500;
+  }
   &-name {
     position: relative;
-    font-size: 16px;
+    font-size: 12px;
     color: #333;
     margin-top: 5px;
     font-weight: 700;
   }
   &-info {
-    font-size: 16px;
-    color: #666;
+    font-size: 14px;
+    color: rgb(105, 105, 105);
     margin-top: 5px;
   }
   &-time {
@@ -172,6 +180,11 @@ export default {
     color: #a5a5a5;
     margin-top: 15px;
     display: inline-block;
+  }
+  &-none {
+    font-size: 20px;
+    text-align: center;
+    margin-top: 50px;
   }
   &-reply {
     span {

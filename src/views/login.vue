@@ -23,6 +23,7 @@
                 !item.password ? 'el-icon-user-solid' : 'el-icon-s-goods'
               "
               :show-password="item.password"
+              @keyup.enter.native="submitForm('form')"
             >
               <el-button slot="append" v-if="item.yzm" @click="getYzm"
                 >获取验证码</el-button
@@ -96,7 +97,7 @@
 export default {
   name: 'login-com',
   created() {
-    // localStorage.removeItem('token');
+    // sessionStorage.removeItem('token');
   },
   data() {
     return {
@@ -209,10 +210,11 @@ export default {
         ...this.form
       });
       if (data.code === 200 || data.code === 9004) {
-        localStorage.setItem('username', this.form.name);
-        localStorage.setItem('id', data.data.id);
-        localStorage.setItem('password', data.data.password);
-        localStorage.setItem('token', data.data.token);
+        sessionStorage.setItem('username', this.form.name);
+        sessionStorage.setItem('id', data.data.id);
+        sessionStorage.setItem('password', data.data.password);
+        sessionStorage.setItem('token', data.data.token);
+        sessionStorage.setItem('fowState', data.data.fowState);
         this.$router.push('/index');
       } else {
         this.$message({

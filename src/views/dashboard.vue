@@ -75,9 +75,9 @@ export default {
         cur: true,
         list: [
           { prop: 'creator', title: '发布人' },
-          { prop: 'project', title: '项目', template: { type: 'text-tag' } },
+          { prop: 'name', title: '项目' },
           { prop: 'industry', title: '行业', template: { type: 'industry' } },
-          { prop: 'type', title: '类型' },
+          { prop: 'type', title: '类型', template: { type: 'type' } },
           { prop: 'zonetype', title: '地区' },
           { prop: 'financeinfo', title: '财务信息', template: { type: 'text' } }
         ]
@@ -86,10 +86,10 @@ export default {
         cur: true,
         list: [
           { prop: 'creator', title: '发布人' },
-          { prop: 'project', title: '项目', template: { type: 'text-tag' } },
-          { prop: 'industry', title: '行业' },
-          { prop: 'type', title: '类型' },
-          { prop: 'finannum', title: '融资轮次' },
+          { prop: 'name', title: '项目' },
+          { prop: 'industry', title: '行业', template: { type: 'industry' } },
+          { prop: 'type', title: '类型', template: { type: 'type' } },
+          { prop: 'financround', title: '融资轮次' },
           { prop: 'financeinfo', title: '财务信息', template: { type: 'text' } }
         ]
       },

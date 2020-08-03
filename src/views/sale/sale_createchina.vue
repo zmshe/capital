@@ -8,16 +8,16 @@
 export default {
   methods: {
     create(type) {
-      localStorage.setItem('formType', this.info.type);
-      localStorage.setItem('formStatus', type);
-      localStorage.setItem(
+      sessionStorage.setItem('formType', this.info.type);
+      sessionStorage.setItem('formStatus', type);
+      sessionStorage.setItem(
         'steps',
         '项目要素,项目信息,项目保密信息/文件,预览,发布成功'
       );
-      localStorage.setItem('form', '{}');
-      localStorage.setItem('fileList', '[]');
-      localStorage.setItem('buzid', '');
-      localStorage.setItem('detailsType', 'add');
+      sessionStorage.setItem('form', '{}');
+      sessionStorage.setItem('fileList', '[]');
+      sessionStorage.setItem('buzid', '');
+      sessionStorage.setItem('detailsType', 'add');
       this.$router.push(this.info.url);
     }
   },

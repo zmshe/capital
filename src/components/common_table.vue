@@ -36,6 +36,9 @@
                   --
                 </div>
               </div>
+              <div v-if="item.template.type === 'type'">
+                <div>{{ typeMap[scope.row[item.prop]] }}</div>
+              </div>
               <div v-if="item.template.type === 'text-tag'">
                 <div>{{ scope.row[item.prop] }}</div>
                 <div>
@@ -49,15 +52,14 @@
               </div>
               <div v-if="item.template.type === 'industry'">
                 <div>
-                  <el-tag
-                    v-for="_item in listdata.rows[scope.$index].industry.split(
-                      ','
+                  <div
+                    v-for="item in industryFormat(
+                      listdata.rows[scope.$index].industry
                     )"
-                    :key="_item"
+                    :key="item"
                   >
-                    {{ _item }}
-                  </el-tag>
-                  <span v-if="!listdata.rows[scope.$index].name">--</span>
+                    {{ item }}
+                  </div>
                 </div>
               </div>
               <div v-if="item.template.type === 'text'">
@@ -105,7 +107,12 @@ export default {
   props: ['type', 'list', 'listdata', 'paginationFun'],
   data() {
     return {
-      page: 1
+      page: 1,
+      typeMap: {
+        1: '企业融资项目',
+        2: '企业并购项目',
+        3: 'PE,VC基金募资'
+      }
     };
   },
   computed: {
@@ -113,6 +120,12 @@ export default {
   },
   methods: {
     ...mapActions('table', ['getlist']),
+    industryFormat(industry) {
+      const result = [];
+      const tmparr = industry.split('/');
+      tmparr.forEach(item => result.push(item.split(',')[1]));
+      return result;
+    },
     change(row) {
       if (!this.list.cur) {
         return;

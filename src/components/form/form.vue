@@ -50,8 +50,8 @@
           :style="{ width: '200px' }"
           v-model="form[item.startmodel]"
           placeholder="请输入金额"
-        ></el-input>
-        至
+        ></el-input
+        >至
         <el-input
           :type="item.inputtype"
           :style="{ width: '200px' }"
@@ -65,15 +65,23 @@
         :style="{ width: item.width }"
         placeholder="请选择"
         :props="{
-          multiple: item.label === '行业分类' ? true : false,
-          checkStrictly: item.label === '行业分类' ? true : false
+          multiple:
+            item.label === '行业分类' || item.label === '主要投资行业'
+              ? true
+              : false,
+          checkStrictly:
+            item.label === '行业分类' || item.label === '主要投资行业'
+              ? true
+              : false
         }"
         v-model="form[item.model]"
         :options="
           item.labeldetail === '国内区域分类'
             ? $chinaarea
-            : item.label === '行业分类'
-            ? $trade
+            : item.label === '行业分类' || item.label === '主要投资行业'
+            ? item.label === '主要投资行业'
+              ? [{ label: '不限', value: '不限' }, ...$trade]
+              : [...$trade]
             : $area
         "
         :show-all-levels="false"
@@ -116,9 +124,9 @@
           <el-option label="亿" :value="2">亿</el-option>
         </el-select>
 
-        <template v-if="item.prepend" slot="prepend">{{
-          item.prepend
-        }}</template>
+        <template v-if="item.prepend" slot="prepend">
+          {{ item.prepend }}
+        </template>
         <template v-if="item.append" slot="append">{{ item.append }}</template>
       </el-input>
 
@@ -158,7 +166,7 @@ export default {
   name: 'conForm',
   data() {
     return {
-      formtype: `${localStorage.getItem('formType')}${localStorage.getItem(
+      formtype: `${sessionStorage.getItem('formType')}${sessionStorage.getItem(
         'formStatus'
       )}`,
       form: {}
@@ -182,19 +190,19 @@ export default {
     });
     this.form = { ...tmpObj };
     if (
-      !localStorage.getItem('formType') ||
-      !localStorage.getItem('formStatus')
+      !sessionStorage.getItem('formType') ||
+      !sessionStorage.getItem('formStatus')
     ) {
       this.$router.push('/dashboard');
     }
     this.form = {
       ...this.form,
-      ...JSON.parse(localStorage.getItem('form')),
-      industry: JSON.parse(localStorage.getItem('form')).industry
-        ? JSON.parse(localStorage.getItem('form')).industry.split('/')
+      ...JSON.parse(sessionStorage.getItem('form')),
+      industry: JSON.parse(sessionStorage.getItem('form')).industry
+        ? JSON.parse(sessionStorage.getItem('form')).industry.split('/')
         : [],
-      zonetype: JSON.parse(localStorage.getItem('form')).zonetype
-        ? JSON.parse(localStorage.getItem('form')).zonetype.split('/')
+      zonetype: JSON.parse(sessionStorage.getItem('form')).zonetype
+        ? JSON.parse(sessionStorage.getItem('form')).zonetype.split('/')
         : []
     };
   },
@@ -203,7 +211,7 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          localStorage.setItem(
+          sessionStorage.setItem(
             'form',
             JSON.stringify({
               ...this.form,

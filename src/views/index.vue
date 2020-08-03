@@ -67,7 +67,7 @@
           <div class="flex cur header-user">
             <el-avatar
               size="large"
-              :style="{ margin: '5px 5px 0 0 ', background: '#FE9D2B' }"
+              :style="{ margin: '5px 15px 0 0 ', background: '#FE9D2B' }"
               >{{ username }}</el-avatar
             >
             <div>
@@ -102,7 +102,7 @@
 export default {
   data() {
     return {
-      username: localStorage.getItem('username'),
+      username: sessionStorage.getItem('username'),
       isCollapse: false
     };
   },

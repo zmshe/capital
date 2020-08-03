@@ -69,7 +69,7 @@ export default {
   methods: {
     async editFun(row) {
       this.$router.push('createdetail');
-      localStorage.setItem(
+      sessionStorage.setItem(
         'form',
         JSON.stringify({
           ...row,
@@ -78,12 +78,12 @@ export default {
           profittype: String(row.profittype)
         })
       );
-      localStorage.setItem(
+      sessionStorage.setItem(
         'formType',
         row.areatype === 1 ? 'saleCreateChina' : 'saleCreateHai'
       );
-      localStorage.setItem('formStatus', row.type);
-      localStorage.setItem('detailsType', 'edit');
+      sessionStorage.setItem('formStatus', row.type);
+      sessionStorage.setItem('detailsType', 'edit');
     },
     async deleteFun(row) {
       const data = await this.$request.post('/system/tProject/remove', {
@@ -95,7 +95,9 @@ export default {
       this.getListData();
     },
     async getListData() {
-      const data = await this.$request.post('/system/pro/list');
+      const data = await this.$request.post('/system/pro/list', {
+        propublisher: sessionStorage.getItem('username')
+      });
       this.listdata = data.data;
     },
     formatterType(row) {

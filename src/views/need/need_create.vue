@@ -30,17 +30,17 @@
 export default {
   methods: {
     create(type) {
-      localStorage.setItem('formType', this.info.type);
-      localStorage.setItem('formStatus', type);
-      localStorage.setItem(
+      sessionStorage.setItem('formType', this.info.type);
+      sessionStorage.setItem('formStatus', type);
+      sessionStorage.setItem(
         'steps',
         '需求要素,需求信息,发布者信息,预览,发布成功'
       );
 
-      localStorage.setItem('form', '{}');
-      localStorage.setItem('fileList', '[]');
-      localStorage.setItem('buzid', '');
-      localStorage.setItem('detailsType', 'add');
+      sessionStorage.setItem('form', '{}');
+      sessionStorage.setItem('fileList', '[]');
+      sessionStorage.setItem('buzid', '');
+      sessionStorage.setItem('detailsType', 'add');
       this.$router.push(this.info.url);
     }
   },
