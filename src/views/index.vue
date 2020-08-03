@@ -87,11 +87,9 @@
           <router-view />
         </transition>
       </div>
-      <div v-if="false">
+      <div>
         <div class="layout-footer flex" v-if="this.$route.name === 'Details'">
-          <span class="collect"><i class="el-icon-star-off"></i>收藏</span>
-          <span class="showaffix">项目详细说明附件</span>
-          <span class="signNDA">项目详细说明附件</span>
+          <span class="nda">签订NDA</span>
         </div>
       </div>
     </div>
@@ -122,28 +120,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.collect {
-  height: 60px;
-  line-height: 60px;
-  font-size: 14px;
-  cursor: pointer;
-  margin-left: 20%;
-  i {
-    font-size: 16px;
-  }
-}
-.showaffix {
-  margin-left: 30%;
-  margin-right: 10px;
-  line-height: 60px;
-}
-.signNDA {
+.nda {
   height: 60px;
   width: 150px;
-  text-align: center;
   line-height: 60px;
   padding: 0 10px;
   cursor: pointer;
+  margin: 0 auto;
+  text-align: center;
   background-color: #f70;
 }
 .signNDA:hover {

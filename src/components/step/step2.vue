@@ -220,6 +220,7 @@ export default {
           }
         });
       } else {
+        delete params.financround;
         sessionStorage.setItem('form', JSON.stringify(params));
         this.$router.push('step3');
       }
@@ -228,10 +229,10 @@ export default {
   created() {
     this.formData = {
       ...this.formData,
-      ...JSON.parse(sessionStorage.getItem('form')),
-      financround: JSON.parse(sessionStorage.getItem('form')).financround.split(
-        ','
-      )
+      ...JSON.parse(sessionStorage.getItem('form'))
+      // financround: JSON.parse(sessionStorage.getItem('form')).financround.split(
+      //   ','
+      // )
     };
     this.needCreateForm.forEach(item => {
       if (item.select) {

@@ -172,7 +172,8 @@ export default {
       const params = {
         ...this.form,
         ...form,
-        type: sessionStorage.getItem('formStatus')
+        type: sessionStorage.getItem('formStatus'),
+        secrecyfile: sessionStorage.getItem('buzid')
       };
       const url = `/system/${
         this.formTypeMap[sessionStorage.getItem('formType')]

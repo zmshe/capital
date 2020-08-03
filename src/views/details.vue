@@ -81,6 +81,25 @@
               </span>
             </div>
           </el-collapse-item>
+          <el-collapse-item
+            title="保密文件"
+            name="2"
+            element-loading-text="正在下载"
+            element-loading-spinner="el-icon-loading"
+          >
+            <div>
+              相关文档:
+              <el-link
+                v-for="item in fileList"
+                :key="item.createDate"
+                type="primary"
+                :underline="false"
+                :style="{ marginRight: '10px' }"
+                @click="fileDownload({ url: item.url, filename: item.name })"
+                >{{ item.name }}</el-link
+              >
+            </div>
+          </el-collapse-item>
         </el-collapse>
       </div>
 
@@ -178,6 +197,7 @@ export default {
       areatype: '',
       flag: '',
       showData: [],
+      fileList: [],
       typeMap: {
         1: '企业融资项目',
         2: '企业并购项目',
@@ -197,6 +217,20 @@ export default {
     };
   },
   methods: {
+    async fileDownload({ url, filename }) {
+      this.fileloading = true;
+      const file = await this.$request.get(
+        `/system/tFile/readFile?path=${url}`,
+        { responseType: 'blob' }
+      );
+      const blob = new Blob([file]);
+      const fileurl = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = fileurl;
+      link.download = filename;
+      link.click();
+      this.fileloading = false;
+    },
     submitMessage() {
       if (this.data.creator === sessionStorage.getItem('username')) {
         this.$message.warning('您自己的项目不能发送站内信哦！');
@@ -250,7 +284,11 @@ export default {
       );
     },
     async getFilelist() {
-      await this.$request.post('/system/tFile/list');
+      const data = await this.$request.post('/system/tFile/list', {
+        buzid: this.data.secrecyfile
+      });
+      this.fileList = data.data.rows;
+      console.log(this.fileList, 'list');
     }
   }
 };
