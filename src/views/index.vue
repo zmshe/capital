@@ -87,11 +87,6 @@
           <router-view />
         </transition>
       </div>
-      <div>
-        <div class="layout-footer flex" v-if="this.$route.name === 'Details'">
-          <span class="nda">签订NDA</span>
-        </div>
-      </div>
     </div>
   </div>
 </template>

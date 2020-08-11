@@ -15,6 +15,7 @@
             <el-button type="primary" @click="submitMessage"
               >发送站内信</el-button
             >
+            <el-button type="success" @click="openNda">签订NDA</el-button>
           </div>
         </div>
         <div class="details-userinfo-card">
@@ -166,6 +167,17 @@
         <el-button type="primary" @click="sendMessage">发送</el-button>
       </div>
     </el-dialog>
+    <el-dialog
+      :visible="ndaDialog"
+      title="是否申请签署项目NDA"
+      width="30%"
+      :before-close="closeNda"
+    >
+      <div :style="{ textAlign: 'right' }">
+        <el-button @click="ndaDialog = false">取消</el-button>
+        <el-button type="primary" @click="signNda">确认签署</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -181,6 +193,7 @@ export default {
           this.data.type
         }`
       ].list;
+      this.getNdaStatus();
       this.getSimilarlist();
       this.getPropublisherlist();
       this.getFilelist();
@@ -188,6 +201,7 @@ export default {
   },
   data() {
     return {
+      ndaDialog: false,
       messageDialog: false,
       message: '',
       collapse: ['0', '1', '2'],
@@ -217,6 +231,28 @@ export default {
     };
   },
   methods: {
+    async getNdaStatus() {
+      const data = await this.$request.post('/system/tNdaNew/list');
+      console.log(data, 'list');
+    },
+    async signNda() {
+      const data = await this.$request.post('/system/tNdaNew/add', {
+        creator: sessionStorage.getItem('username'),
+        proId: this.data.id
+      });
+      if (data.code === 200) {
+        this.$message.success('提交成功，请等待审核');
+        this.ndaDialog = false;
+      } else {
+        this.$message.error('提交失败');
+      }
+    },
+    openNda() {
+      this.ndaDialog = true;
+    },
+    closeNda() {
+      this.ndaDialog = false;
+    },
     async fileDownload({ url, filename }) {
       this.fileloading = true;
       const file = await this.$request.get(
