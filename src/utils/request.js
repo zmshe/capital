@@ -17,7 +17,10 @@ const service = axios.create({
     if (config['Content-Type'] === 'application/x-www-form-urlencoded') {
       return qs.stringify(data);
     } else if (config['Content-Type'] === 'application/json;charset=UTF-8') {
-      return JSON.stringify({ ...data, token: sessionStorage.getItem('token') });
+      return JSON.stringify({
+        ...data,
+        token: sessionStorage.getItem('token')
+      });
     } else {
       return data;
     }
@@ -27,10 +30,6 @@ const service = axios.create({
 // 响应拦截器
 service.interceptors.response.use(
   response => {
-    if (response.data.code === 9009) {
-      console.log();
-    }
-    console.log(response.data);
     return response.data;
   },
   error => {
